@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import logo from '../assets/logo.jpg';
+import logo from '../assets/logo.png';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,12 +24,12 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center cursor-pointer" onClick={() => scrollToSection('hero')}>
-            <img src={logo} alt="مقصد المسافر" className="h-16 w-auto" />
+          <div className="flex items-center cursor-pointer bg-white p-2 rounded-lg" onClick={() => scrollToSection('hero')}>
+            <img src={logo} alt="مقصد المسافر" className="h-14 w-auto" />
             <div className="mr-3 hidden sm:block">
               <h1 className="text-xl font-bold text-primary">مقصد المسافر</h1>
               <p className="text-xs text-muted-foreground">رحلات استثنائية</p>

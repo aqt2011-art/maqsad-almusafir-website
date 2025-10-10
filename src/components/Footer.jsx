@@ -1,4 +1,5 @@
 import { Heart } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,7 +9,10 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center space-y-6">
           {/* Logo and Title */}
-          <div>
+          <div className="flex flex-col items-center">
+            <div className="bg-white p-3 rounded-lg mb-4">
+              <img src={logo} alt="مقصد المسافر" className="h-20 w-auto" />
+            </div>
             <h3 className="text-2xl font-bold mb-2">مؤسسة مقصد المسافر</h3>
             <p className="text-white/80">حيث تلتقي الأصالة بالمستقبل</p>
           </div>
