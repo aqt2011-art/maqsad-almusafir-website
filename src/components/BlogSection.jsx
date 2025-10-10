@@ -50,7 +50,7 @@ export default function BlogSection() {
     {
       icon: Phone,
       title: 'الهاتف',
-      content: '055 273 1767',
+      content: '0552731767',
       isLtr: true
     },
     {
@@ -195,7 +195,7 @@ export default function BlogSection() {
                     </div>
                     <div>
                       <h4 className="font-bold text-primary mb-1">{info.title}</h4>
-                      <p className={`text-muted-foreground whitespace-pre-line ${info.isLtr ? 'ltr' : ''}`}>
+                      <p className={`text-muted-foreground whitespace-pre-line ${info.isLtr ? 'text-left' : ''}`} dir={info.isLtr ? 'ltr' : 'rtl'}>
                         {info.content}
                       </p>
                     </div>

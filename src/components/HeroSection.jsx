@@ -27,7 +27,7 @@ export default function HeroSection() {
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
             مقصد المسافر
-            <span className="block text-accent mt-2">حيث تلتقي الأصالة بالمستقبل</span>
+            <span className="block text-accent mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wide opacity-95">حيث تلتقي الأصالة بالمستقبل</span>
           </h1>
           
           <p className="text-lg sm:text-xl md:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed">
