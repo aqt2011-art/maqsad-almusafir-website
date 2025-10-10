@@ -1,5 +1,5 @@
 import { Eye, Target, Lightbulb, Award } from 'lucide-react';
-import missionImage from '../assets/saudi-tourism.jpg';
+import missionImage from '../assets/alula-mountains.jpg';
 
 export default function MissionSection() {
   const features = [
