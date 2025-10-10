@@ -137,10 +137,15 @@ export default function ProgramsSection() {
                   </div>
 
                   <Button
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
-                    onClick={() => handleBooking(program.packageName)}
+                    className={`w-full font-bold py-6 rounded-xl shadow-lg transition-all ${
+                      program.packageName === 'باقة متنفس'
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-primary hover:bg-primary/90 hover:shadow-xl'
+                    } text-white`}
+                    onClick={() => program.packageName !== 'باقة متنفس' && handleBooking(program.packageName)}
+                    disabled={program.packageName === 'باقة متنفس'}
                   >
-                    احجز الآن
+                    {program.packageName === 'باقة متنفس' ? 'قريباً' : 'احجز الآن'}
                   </Button>
                 </div>
               </div>
