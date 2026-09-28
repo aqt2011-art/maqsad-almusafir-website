@@ -10,13 +10,13 @@ from scipy.signal import butter, sosfilt, fftconvolve
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SR = 48000
-DUR = 65.9 + 0.5
+DUR = 68.9 + 0.5
 N = int(DUR * SR)
 rng = np.random.default_rng(7)
 
-SCENES = [0, 5.8, 11.8, 20.1, 28.3, 35.9, 43.4, 49.6, 54.6, 59.4]
-VO_STARTS = [0.5, 6.1, 13.6, 20.5, 28.6, 36.2, 43.7, 49.9, 54.9, 59.8]
-LOGO_HIT, CTA_HIT = 13.15, 59.9
+SCENES = [0, 5.8, 12.6, 22.2, 30.4, 38.2, 45.8, 52.2, 57.2, 61.9]
+VO_STARTS = [0.5, 6.1, 15.2, 22.6, 30.7, 38.5, 46.1, 52.5, 57.5, 62.3]
+LOGO_HIT, CTA_HIT = 13.95, 62.4
 
 
 def t_(n):
@@ -195,44 +195,83 @@ ir = filt(ir, 'lowpass', 5000)
 music = music + fftconvolve(music, ir)[:N] * .012
 
 # ---------------------------------------------------------------- sfx track
+def crash():
+    t = t_(int(2.5 * SR))
+    return filt(rng.standard_normal(len(t)), 'highpass', 4000) * np.exp(-t / .7) * .6
+
+
+def snare_roll(d=1.0):
+    out = np.zeros(int((d + .3) * SR))
+    n = 16
+    for i in range(n):
+        at = d * (1 - (1 - i / n) ** 1.6)
+        place(out, clap(), at, .15 + .5 * i / n)
+    return out
+
+
+def magic_rise(d=1.0):
+    n = int(d * SR)
+    t = t_(n)
+    f = 400 * 2 ** (2.5 * t / d)
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * .25 + filt(rng.standard_normal(n), 'bandpass', [3000, 9000]) * .4
+    return x * np.sin(np.pi * t / d) ** 1.5
+
+
+def crackle(d=1.5, n=60):
+    out = np.zeros(int((d + .1) * SR))
+    for _ in range(n):
+        place(out, click(), rng.uniform(0, d) ** 1.3 / d ** .3, rng.uniform(.1, .35))
+    return out
+
+
+S = dict(zip(['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10'], SCENES))
 sfx = np.zeros(N)
 for a in SCENES[1:]:
     place(sfx, whoosh(.7), a - .45, .5)
 place(sfx, riser(1.6), LOGO_HIT - 1.6, .45)
+place(sfx, snare_roll(1.0), LOGO_HIT - 1.0, .5)
 place(sfx, riser(1.2), CTA_HIT - 1.2, .35)
-place(sfx, impact(), LOGO_HIT, .9)
-place(sfx, impact(), CTA_HIT, .75)
+place(sfx, snare_roll(.9), CTA_HIT - .9, .45)
+for hit in (LOGO_HIT, CTA_HIT):
+    place(sfx, impact(), hit, .9)
+    place(sfx, crash(), hit, .6)
 place(sfx, sparkle(12, .8), LOGO_HIT + .05, .6)
 place(sfx, sparkle(10, .7), CTA_HIT + .05, .5)
 for i in range(21):                                   # typing, scene 1 & 4
     place(sfx, click(), .35 + i * 1.2 / 21 + rng.uniform(-.01, .01), .25)
-    place(sfx, click(), 20.8 + i * 1.2 / 21 + rng.uniform(-.01, .01), .2)
+    place(sfx, click(), S['s4'] + .6 + i * 1.1 / 21 + rng.uniform(-.01, .01), .2)
 place(sfx, pop(400, 700), 2.4, .35)
 place(sfx, thud(), 3.5, .7)
-place(sfx, swipe(), 5.8 + 2.7, .45)                  # strike-through
-place(sfx, sparkle(5, .3), 5.8 + 4.5, .35)           # underline
-place(sfx, whoosh(.5), 11.8 + .6, .25)               # lamp rub
-place(sfx, whoosh(.6), 13.85 - .3, .3)               # wordmark in
-place(sfx, sparkle(8, .5), 20.1 + 2.1, .4)           # wand
-for at in (3.7, 4.4, 5.2, 6.0, 6.7):
-    place(sfx, pop(), 20.1 + at, .3)
+place(sfx, swipe(), S['s2'] + 3.0, .45)              # strike-through
+place(sfx, sparkle(5, .3), S['s2'] + 4.9, .35)       # underline
+place(sfx, whoosh(.5), S['s3'] + .6, .25)            # lamp rub
+place(sfx, magic_rise(1.1), S['s3'] + 1.4, .5)       # genie appears
+place(sfx, sparkle(6, .4), S['s3'] + 2.4, .35)       # genie wave
+place(sfx, whoosh(.6), S['s3'] + 2.9 - .3, .3)       # wordmark in
+place(sfx, sparkle(8, .5), S['s4'] + 2.0, .4)        # wand
+for at in (3.6, 4.4, 5.2, 6.1, 6.8):
+    place(sfx, pop(), S['s4'] + at, .3)
+    for k in range(8):
+        place(sfx, click(), S['s4'] + at + .15 + k * .07, .08)
 for i in range(8):
-    place(sfx, pop(600 + i * 40, 1000 + i * 40), 28.3 + .8 + i * .1, .18)
+    place(sfx, pop(600 + i * 40, 1000 + i * 40), S['s5'] + .8 + i * .1, .18)
 for at in (3.55, 4.35, 5.25, 6.15):
-    place(sfx, click(), 28.3 + at, .5)
+    place(sfx, click(), S['s5'] + at, .5)
 for at in (3.1, 4.2, 5.1, 6.0, 6.6, 6.8):
-    place(sfx, pop(450, 900), 35.9 + at, .3)
+    place(sfx, pop(450, 900), S['s6'] + at, .3)
 for i in range(3):
-    place(sfx, sparkle(3, .15), 43.4 + 1.4 + i * .2, .25)
-place(sfx, click(), 43.4 + 2.5, .4)
-place(sfx, click(), 43.4 + 4.1, .6)
-place(sfx, ding(), 43.4 + 4.3, .45)
-for at in (1.8, 2.5, 3.2):
-    place(sfx, pop(300, 800), 49.6 + at, .4)
+    place(sfx, sparkle(3, .15), S['s7'] + 1.4 + i * .2, .25)
+place(sfx, click(), S['s7'] + 2.5, .4)
+place(sfx, click(), S['s7'] + 4.1, .6)
+place(sfx, ding(), S['s7'] + 4.3, .45)
+for at in (1.9, 2.6, 3.3):
+    place(sfx, pop(300, 800), S['s8'] + at, .4)
 for at in (.3, 1.4, 2.5):
-    place(sfx, whoosh(.4), 54.6 + at - .2, .3)
-    place(sfx, pop(500, 1100), 54.6 + at + .2, .25)
-place(sfx, pop(350, 900), 59.4 + 1.7, .4)
+    place(sfx, whoosh(.4), S['s9'] + at - .2, .3)
+    place(sfx, pop(500, 1100), S['s9'] + at + .2, .25)
+place(sfx, magic_rise(.9), S['s10'] + .3, .35)       # genie returns
+place(sfx, crackle(1.6), CTA_HIT + .1, .5)           # confetti
+place(sfx, pop(350, 900), S['s10'] + 1.8, .4)
 
 # ---------------------------------------------------------------- voice-over
 vo = np.zeros(N)
@@ -256,7 +295,7 @@ def stereo(x, width_ms=0.0, pan=0.0):
     return np.stack([l, r], 1)
 
 
-mix = stereo(music_d * .2, 9) + stereo(sfx * .35, 4) + stereo(vo)
+mix = stereo(music_d * .3, 9) + stereo(sfx * .35, 4) + stereo(vo)
 mix /= np.abs(mix).max() / .95
 sf.write(os.path.join(HERE, 'soundtrack.wav'), mix.astype(np.float32), SR)
 print('soundtrack.wav', round(len(mix) / SR, 2), 's')

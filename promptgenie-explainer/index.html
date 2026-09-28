@@ -29,7 +29,7 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 .scene{position:absolute;inset:0;opacity:0;display:none}
 .el{position:absolute;transform:translate(-50%,-50%)}
 .latin{font-family:Inter,sans-serif;direction:ltr;unicode-bidi:isolate}
-.grad{background:linear-gradient(90deg,var(--gold2),var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad{background:linear-gradient(90deg,var(--gold2),var(--gold),var(--pink),#fff6d8,var(--gold2),var(--gold),var(--pink));background-size:300% 100%;background-position:var(--sh,0%) 0;-webkit-background-clip:text;background-clip:text;color:transparent}
 .gradv{background:linear-gradient(90deg,var(--cyan),var(--violet2),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
 .w{display:inline-block;white-space:pre}
 .h1{font-size:104px;font-weight:900;white-space:nowrap;line-height:1.25;text-align:center}
@@ -136,6 +136,13 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 .url{padding:30px 60px;border-radius:999px;font-size:62px;font-weight:800;background:linear-gradient(90deg,var(--gold),var(--pink));color:#1a0b2e;box-shadow:0 0 110px rgba(255,200,87,.6);white-space:nowrap}
 .tap{font-size:40px;font-weight:800;color:var(--gold2);white-space:nowrap}
 
+.genie{overflow:visible}
+.genie .tail{transform-box:view-box;transform-origin:150px 285px}
+.genie .head{transform-box:view-box;transform-origin:150px 178px}
+.genie .armR{transform-box:view-box;transform-origin:186px 206px}
+.genie .eyes{transform-box:fill-box;transform-origin:center}
+#confetti i{position:absolute;left:0;top:0;width:16px;height:26px;border-radius:4px}
+.uring{border-radius:999px;border:4px solid rgba(255,200,87,.85);width:720px;height:120px}
 #ui{position:fixed;left:0;right:0;bottom:0;height:6px;background:rgba(255,255,255,.1);cursor:pointer}
 #ui div{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--pink))}
 #hint{position:fixed;top:10px;left:50%;transform:translateX(-50%);font:600 13px Tajawal,sans-serif;color:#b8b0e0;opacity:.7;white-space:nowrap}
@@ -158,6 +165,10 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
       <ellipse cx="150" cy="180" rx="62" ry="10" fill="url(#gold)"/>
       <path d="M90 115 C110 105 150 104 175 108" stroke="#fff6d8" stroke-width="5" stroke-linecap="round" opacity=".7"/>
     </symbol>
+    <linearGradient id="gBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b39dff"/><stop offset="1" stop-color="#5a3ddb"/></linearGradient>
+    <linearGradient id="gTail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset=".6" stop-color="#38e1ff" stop-opacity=".7"/><stop offset="1" stop-color="#38e1ff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="gSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9cc4ff"/><stop offset="1" stop-color="#5f86ff"/></linearGradient>
+    <linearGradient id="gTurban" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe29a"/><stop offset=".5" stop-color="#ffc857"/><stop offset="1" stop-color="#ff5ca8"/></linearGradient>
   </defs></svg>
 
   <div class="blob" id="b1" style="width:760px;height:760px;background:#4b1fb0"></div>
@@ -198,17 +209,18 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 
   <!-- S3 logo -->
   <section class="scene" id="s3">
-    <div class="el glow" id="s3glow" style="left:540px;top:720px;width:900px;height:900px"></div>
-    <div class="el ring" id="s3ring" style="left:540px;top:760px;width:300px;height:300px"></div>
-    <svg class="el" id="s3smoke" style="left:600px;top:560px" width="440" height="420" viewBox="0 0 420 360" fill="none">
+    <div class="el glow" id="s3glow" style="left:540px;top:680px;width:980px;height:980px"></div>
+    <div class="el ring" id="s3ring" style="left:540px;top:900px;width:300px;height:300px"></div>
+    <svg class="el" id="s3smoke" style="left:640px;top:680px" width="440" height="420" viewBox="0 0 420 360" fill="none">
       <path id="smokepath" d="M300 350 C 360 300 380 250 320 220 C 250 185 170 230 190 170 C 210 110 300 140 280 80 C 265 35 200 30 210 10" stroke="url(#smk)" stroke-width="18" stroke-linecap="round"/>
     </svg>
-    <svg class="el" id="s3lamp" style="left:540px;top:820px" width="520" height="347"><use href="#lamp"/></svg>
+    <svg class="el" id="s3lamp" style="left:540px;top:940px" width="520" height="347"><use href="#lamp"/></svg>
+    <svg class="el genie" id="s3genie" style="left:600px;top:560px" width="330" height="484" viewBox="0 0 300 440"></svg>
     <div id="s3sparks"></div>
-    <div class="el latin" id="s3ai" style="left:540px;top:1110px;font-size:120px;font-weight:800;white-space:nowrap"><span class="gradv">AI</span></div>
-    <div class="el latin" id="s3word" style="left:540px;top:1240px;font-size:138px;font-weight:800;letter-spacing:-3px;white-space:nowrap"><span class="grad">PromptGenie</span></div>
-    <div class="el sub kw" id="s3tag1" style="left:540px;top:1390px;color:var(--text);font-size:50px">حوّل أي فكرة إلى</div>
-    <div class="el sub kw" id="s3tag2" style="left:540px;top:1460px;font-size:50px;font-weight:800"><span class="grad">برومبت احترافي في ثوانٍ</span></div>
+    <div class="el latin" id="s3ai" style="left:540px;top:1160px;font-size:120px;font-weight:800;white-space:nowrap"><span class="gradv">AI</span></div>
+    <div class="el latin" id="s3word" style="left:540px;top:1285px;font-size:138px;font-weight:800;letter-spacing:-3px;white-space:nowrap"><span class="grad">PromptGenie</span></div>
+    <div class="el sub kw" id="s3tag1" style="left:540px;top:1420px;color:var(--text);font-size:50px">حوّل أي فكرة إلى</div>
+    <div class="el sub kw" id="s3tag2" style="left:540px;top:1490px;font-size:50px;font-weight:800"><span class="grad">برومبت احترافي في ثوانٍ</span></div>
   </section>
 
   <!-- S4 optimizer -->
@@ -270,7 +282,7 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
     <div class="el step" id="s8b" style="left:820px;top:1010px">٢</div>
     <div class="el step" id="s8c" style="left:820px;top:1330px">٣</div>
     <div class="el steplabel" id="s8la" style="left:440px;top:690px"><b>اكتب فكرتك</b><span>بكلماتك البسيطة</span></div>
-    <div class="el steplabel" id="s8lb" style="left:440px;top:1010px"><b>اختر الهدف</b><span>تسويق، كتابة، صور…</span></div>
+    <div class="el steplabel" id="s8lb" style="left:440px;top:1010px"><b>حدّد الهدف</b><span>تسويق، كتابة، صور…</span></div>
     <div class="el steplabel" id="s8lc" style="left:440px;top:1330px"><b>انسخ واستخدم</b><span>برومبت احترافي جاهز</span></div>
   </section>
 
@@ -284,10 +296,13 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 
   <!-- S10 CTA -->
   <section class="scene" id="s10">
-    <div class="el glow" id="s10glow" style="left:540px;top:640px;width:760px;height:760px"></div>
-    <svg class="el" id="s10lamp" style="left:540px;top:680px" width="440" height="293"><use href="#lamp"/></svg>
+    <div class="el glow" id="s10glow" style="left:540px;top:600px;width:860px;height:860px"></div>
+    <svg class="el" id="s10lamp" style="left:480px;top:760px" width="440" height="293"><use href="#lamp"/></svg>
+    <svg class="el genie" id="s10genie" style="left:640px;top:440px" width="300" height="440" viewBox="0 0 300 440"></svg>
     <div id="s10sparks"></div>
+    <div id="confetti"></div>
     <div class="el h1" id="s10h" style="left:540px;top:1000px;font-size:130px"><span class="kw">جرّبه</span> <span class="grad kw">الآن</span></div>
+    <div class="el uring" style="left:540px;top:1180px"></div><div class="el uring" style="left:540px;top:1180px"></div>
     <div class="el url latin" id="s10url" style="left:540px;top:1180px">ai-promptgenie.com</div>
     <div class="el tap" id="s10tap" style="left:540px;top:1330px">👆 دع المارد يكتب لك البرومبت المثالي</div>
   </section>
@@ -318,16 +333,17 @@ const E = {
 };
 const p = (t, s, d, e = E.out) => e(clamp((t - s) / d));
 
-function set(el, { x = 0, y = 0, s = 1, sx = 1, sy = 1, r = 0, o = 1, blur = 0 } = {}) {
+function set(el, { x = 0, y = 0, s = 1, sx = 1, sy = 1, r = 0, rx = 0, ry = 0, o = 1, blur = 0 } = {}) {
   const base = el.classList.contains('el') ? 'translate(-50%,-50%) ' : '';
-  el.style.transform = `${base}translate(${x}px,${y}px) scale(${s * sx},${s * sy}) rotate(${r}deg)`;
+  const d3 = rx || ry ? ` perspective(1400px) rotateX(${rx}deg) rotateY(${ry}deg)` : '';
+  el.style.transform = `${base}translate(${x}px,${y}px)${d3} scale(${s * sx},${s * sy}) rotate(${r}deg)`;
   el.style.opacity = o;
   el.style.filter = blur > .05 ? `blur(${blur}px)` : '';
 }
 const add = (el, tf) => { el.style.transform += ' ' + tf; };
-function pop(el, t, at, { d = .7, dy = 60, dx = 0, s0 = .8, r0 = 0, x = 0, y = 0, ease = E.back } = {}) {
-  const k = p(t, at, d * .75, E.out), kb = p(t, at, d, ease);
-  set(el, { x: x + (1 - kb) * dx, y: y + (1 - kb) * dy, s: lerp(s0, 1, kb), r: (1 - kb) * r0, o: k, blur: (1 - k) * 12 });
+function pop(el, t, at, { d = .7, dy = 60, dx = 0, s0 = .8, r0 = 0, rx0 = 0, ry0 = 0, x = 0, y = 0, ease = E.back } = {}) {
+  const k = p(t, at, d * .75, E.out), kb = p(t, at, d, ease), k3 = p(t, at, d * 1.2, E.out5);
+  set(el, { x: x + (1 - kb) * dx, y: y + (1 - kb) * dy, s: lerp(s0, 1, kb), r: (1 - kb) * r0, rx: (1 - k3) * rx0, ry: (1 - k3) * ry0, o: k, blur: (1 - k) * 12 });
 }
 function type(el, full, t, at, d) { el.textContent = full.slice(0, Math.round(full.length * clamp((t - at) / d))); }
 
@@ -359,22 +375,23 @@ function words(el, t, at, { st = .09, d = .6, dy = 50, s0 = .6 } = {}) {
 
 /* ======================= timeline ======================= */
 const TL = [
-  ['s1', 0, 5.8], ['s2', 5.8, 11.8], ['s3', 11.8, 20.1], ['s4', 20.1, 28.3], ['s5', 28.3, 35.9],
-  ['s6', 35.9, 43.4], ['s7', 43.4, 49.6], ['s8', 49.6, 54.6], ['s9', 54.6, 59.4], ['s10', 59.4, 65.9],
+  ['s1', 0, 5.8], ['s2', 5.8, 12.6], ['s3', 12.6, 22.2], ['s4', 22.2, 30.4], ['s5', 30.4, 38.2],
+  ['s6', 38.2, 45.8], ['s7', 45.8, 52.2], ['s8', 52.2, 57.2], ['s9', 57.2, 61.9], ['s10', 61.9, 68.9],
 ];
-const DURATION = 65.9;
-// voice-over captions: [start, duration, text] — mirrors audio/vo timings
+const DURATION = 68.9;
+const LOGO_HIT = 13.95, CTA_HIT = 62.4;
+// voice-over captions: [start, duration, text] — mirrors audio/build_audio.py
 const VO = [
-  [0.5, 4.56, 'هل كتبت فكرة رائعة… لكن النتيجة جاءت عادية؟'],
-  [6.1, 5.25, 'المشكلة ليست في الذكاء الاصطناعي… بل في طريقة كتابة الأمر'],
-  [13.6, 6.0, 'مع AI PromptGenie حوّل أي فكرة إلى أمر احترافي في ثوانٍ'],
-  [20.5, 6.8, 'اكتب فكرتك ببساطة، ودع المارد يضيف الدور والهدف والجمهور والأسلوب'],
-  [28.6, 6.79, 'اختر من مكتبة قوالب جاهزة لكل مجال: تسويق، كتابة، برمجة، وتصميم'],
-  [36.2, 6.71, 'استخدمه مع ChatGPT، Claude، Gemini، Midjourney'],
-  [43.7, 5.19, 'احفظ أوامرك المفضلة، ونظّمها، وانسخها بنقرة واحدة'],
-  [49.9, 3.42, 'ثلاث خطوات فقط: اكتب… اختر… ثم انسخ'],
-  [54.9, 3.52, 'وقت أقل… نتائج أدق… وبدون أي خبرة'],
-  [59.8, 3.72, 'جرّبه الآن على ai-promptgenie.com'],
+  [0.5, 4.64, 'هل كتبت فكرة رائعة… لكن النتيجة جاءت عادية؟'],
+  [6.1, 5.98, 'المشكلة ليست في الذكاء الاصطناعي… بل في طريقة كتابة الأمر نفسه'],
+  [15.2, 6.51, 'مع AI\u00a0PromptGenie حوّل أي فكرة إلى أمر احترافي في ثوانٍ'],
+  [22.6, 6.87, 'اكتب فكرتك ببساطة، ودع المارد يضيف الدور والهدف والجمهور والأسلوب'],
+  [30.7, 6.83, 'تصفّح مكتبة قوالب جاهزة لكل مجال: تسويق، كتابة، برمجة، وتصميم'],
+  [38.5, 6.71, 'استخدمه مع ChatGPT، Claude، Gemini، Midjourney'],
+  [46.1, 5.48, 'احفظ أوامرك المفضلة، ونظّمها، وانسخها بنقرة واحدة'],
+  [52.5, 3.88, 'ثلاث خطوات فقط: اكتب، حدّد، ثم انسخه'],
+  [57.5, 3.68, 'وقت أقل… نتائج أدق… وبدون أي خبرة'],
+  [62.3, 4.22, 'جرّبه الآن على ai-promptgenie.com'],
 ];
 
 /* ======================= static content ======================= */
@@ -416,7 +433,40 @@ function makeSparks(host, cx, cy, n) {
   return arr;
 }
 const sparks3 = makeSparks($('#s3sparks'), 540, 760, 22);
-const sparks10 = makeSparks($('#s10sparks'), 540, 640, 16);
+const sparks10 = makeSparks($('#s10sparks'), 540, 600, 16);
+const GENIE = `
+  <g class="tail"><path d="M150 438 C112 410 196 378 160 344 C134 318 108 304 112 272 L188 272 C204 304 188 334 178 352 C162 384 206 408 150 438Z" fill="url(#gTail)"/></g>
+  <path d="M96 282 C88 222 110 178 150 172 C190 178 212 222 204 282 C184 298 116 298 96 282Z" fill="url(#gBody)"/>
+  <path d="M128 178 L150 250 L172 178" stroke="#ffc857" stroke-width="7" fill="none" stroke-linejoin="round"/>
+  <circle cx="150" cy="262" r="7" fill="#38e1ff"/>
+  <g class="armL"><path d="M112 204 C74 214 66 250 96 262" stroke="url(#gSkin)" stroke-width="26" fill="none" stroke-linecap="round"/><circle cx="100" cy="262" r="16" fill="#8ab4ff"/><rect x="92" y="236" width="20" height="10" rx="4" fill="#ffc857"/></g>
+  <g class="armR"><path d="M188 204 C226 196 248 160 240 118" stroke="url(#gSkin)" stroke-width="26" fill="none" stroke-linecap="round"/><circle cx="240" cy="112" r="17" fill="#8ab4ff"/><rect x="226" y="132" width="24" height="10" rx="4" fill="#ffc857" transform="rotate(-10 238 137)"/></g>
+  <g class="head">
+    <rect x="136" y="160" width="28" height="24" rx="8" fill="#6d8fff"/>
+    <circle cx="150" cy="130" r="48" fill="url(#gSkin)"/>
+    <circle cx="102" cy="134" r="10" fill="#7fa4ff"/><circle cx="198" cy="134" r="10" fill="#7fa4ff"/>
+    <circle cx="101" cy="148" r="5" fill="#ffc857"/><circle cx="199" cy="148" r="5" fill="#ffc857"/>
+    <path d="M122 114 Q132 106 142 112 M158 112 Q168 106 178 114" stroke="#1a0b2e" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <g class="eyes"><ellipse cx="133" cy="128" rx="7" ry="9" fill="#1a0b2e"/><ellipse cx="167" cy="128" rx="7" ry="9" fill="#1a0b2e"/>
+      <circle cx="135" cy="125" r="2.5" fill="#fff"/><circle cx="169" cy="125" r="2.5" fill="#fff"/></g>
+    <circle cx="120" cy="146" r="8" fill="#ff5ca8" opacity=".35"/><circle cx="180" cy="146" r="8" fill="#ff5ca8" opacity=".35"/>
+    <path d="M132 150 Q150 168 168 150" stroke="#1a0b2e" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M140 172 Q150 196 160 172 Z" fill="#2a1670"/>
+    <path d="M98 108 C96 54 204 54 202 108 C182 92 118 92 98 108Z" fill="url(#gTurban)"/>
+    <path d="M150 62 C142 44 150 30 164 26 C156 38 162 50 150 62Z" fill="#ff5ca8"/>
+    <circle cx="150" cy="86" r="10" fill="#38e1ff" stroke="#fff6d8" stroke-width="3"/>
+  </g>`;
+$$('.genie').forEach(g => g.innerHTML = GENIE);
+const confetti = [];
+{
+  const cols = ['#ffc857', '#ff5ca8', '#38e1ff', '#a78bff', '#3ee6a0', '#fff6d8'];
+  for (let i = 0; i < 90; i++) {
+    const d = document.createElement('i'); d.style.background = cols[i % cols.length];
+    $('#confetti').appendChild(d);
+    const a = -Math.PI / 2 + (rnd() - .5) * 2.4, v = 900 + rnd() * 900;
+    confetti.push({ d, x0: 540, y0: 1000, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: (rnd() - .5) * 900, rx: 200 + rnd() * 600, delay: rnd() * .25 });
+  }
+}
 function burst(arr, t, at) {
   arr.forEach(q => {
     const k = p(t - q.delay, at, 1.4, E.out5);
@@ -429,9 +479,8 @@ const smoke = $('#smokepath'); const smokeLen = smoke.getTotalLength(); smoke.st
 const S = {
   s1(t) {
     const chat = $('#s1chat');
-    pop(chat, t, 0, { dy: 120, s0: .9 });
-    // shake when the bad answer lands
-    const sh = p(t, 3.55, .5, E.lin); if (sh > 0 && sh < 1) add(chat, `translate(${Math.sin(sh * 40) * 14 * (1 - sh)}px,0)`);
+    pop(chat, t, 0, { dy: 160, s0: .85, rx0: 40 });
+    const sh = p(t, 3.55, .5, E.lin); if (sh > 0 && sh < 1) add(chat, `translate(${Math.sin(sh * 40) * 16 * (1 - sh)}px,0)`);
     type($('#s1type'), 'اكتب لي إعلاناً لمنتجي', t, .35, 1.2);
     $('#s1caret').style.opacity = (t < 1.7 && Math.floor(t * 3) % 2 === 0) ? 1 : 0;
     const th = $('#s1think'); th.style.opacity = t > 1.7 && t < 2.4 ? 1 : 0;
@@ -441,17 +490,18 @@ const S = {
     pop($('#s1stamp'), t, 3.5, { dy: 0, s0: 2.6, r0: 25, d: .5, ease: E.out5 }); add($('#s1stamp'), 'rotate(-8deg)');
     words($('#s1a'), t, .6);
     words($('#s1b'), t, 2.7, { st: .12 });
+    $('#s1').style.transform += ` scale(${lerp(1, 1.04, p(t, 0, 5.8, E.lin))})`;
   },
   s2(t) {
     words($('#s2a'), t, .2, { st: .14 });
-    words($('#s2strike'), t, 1.4, { st: .2 }); set($('#s2b'), {});
-    $('#s2strike').style.setProperty('--k', p(t, 2.7, .35));
-    const shake = p(t, 2.7, .4, E.lin); add($('#s2b'), `translate(${Math.sin(shake * 30) * 10 * (1 - shake) * (shake > 0)}px,0)`);
-    $('#s2b').style.opacity = lerp(1, .45, p(t, 3, .4));
-    words($('#s2c'), t, 3.0, { st: .15 });
-    pop($('#s2d'), t, 3.6, { dy: 80, s0: .6 });
-    $('#s2under').style.setProperty('--k', p(t, 4.5, .5));
-    pop($('#s2chip'), t, 4.9, { dy: 40 });
+    words($('#s2strike'), t, 1.5, { st: .2 }); set($('#s2b'), {});
+    $('#s2strike').style.setProperty('--k', p(t, 3.0, .35));
+    const shake = p(t, 3.0, .4, E.lin); add($('#s2b'), `translate(${Math.sin(shake * 30) * 12 * (1 - shake) * (shake > 0)}px,0)`);
+    $('#s2b').style.opacity = lerp(1, .4, p(t, 3.3, .4));
+    words($('#s2c'), t, 3.4, { st: .15 });
+    pop($('#s2d'), t, 3.9, { dy: 90, s0: .5, rx0: 50 });
+    $('#s2under').style.setProperty('--k', p(t, 4.9, .5));
+    pop($('#s2chip'), t, 5.4, { dy: 40 });
     add($('#s2chip'), `translateY(${Math.sin(t * 2.5) * 8}px)`);
   },
   s3(t) {
@@ -460,43 +510,50 @@ const S = {
     const lamp = $('#s3lamp');
     pop(lamp, t, 0, { dy: 160, s0: .5 });
     const rub = p(t, .6, .9, E.lin); add(lamp, `rotate(${Math.sin(rub * 22) * 7 * (1 - rub) * (rub > 0)}deg)`);
-    add(lamp, `translateY(${Math.sin(t * 2) * 8}px)`);
-    smoke.style.strokeDashoffset = smokeLen * (1 - p(t, .9, 1.2, E.inOut));
-    set($('#s3smoke'), { o: p(t, .9, .2) * (1 - p(t, 2.0, .5)), s: lerp(.9, 1.1, p(t, .9, 1.6)) });
+    add(lamp, `translateY(${Math.sin(t * 2) * 6}px)`);
+    smoke.style.strokeDashoffset = smokeLen * (1 - p(t, .9, 1.0, E.inOut));
+    set($('#s3smoke'), { o: p(t, .9, .2) * (1 - p(t, 1.6, .5)), s: lerp(.9, 1.15, p(t, .9, 1.4)) });
     const kr = p(t, 1.35, 1.1, E.out5);
-    set($('#s3ring'), { s: lerp(.2, 3.6, kr), o: (t > 1.35) * (1 - kr) });
+    set($('#s3ring'), { s: lerp(.2, 3.8, kr), o: (t > 1.35) * (1 - kr) });
     burst(sparks3, t, 1.35);
-    pop($('#s3ai'), t, 1.8, { dy: 0, s0: 2.2, d: .6, ease: E.out5 });
-    const ww = $('#s3word'); pop(ww, t, 2.05, { dy: 0, s0: .4, d: .9 });
-    ww.style.letterSpacing = lerp(30, -3, p(t, 2.05, 1.2)) + 'px';
-    words($('#s3tag1'), t, 3.9, { st: .1 });
-    words($('#s3tag2'), t, 5.2, { st: .12 });
+    // genie swooshes out of the spout
+    const g = $('#s3genie'); const kgn = p(t, 1.4, 1.1, E.back);
+    set(g, { x: (1 - kgn) * 240, y: (1 - kgn) * 300 + Math.sin(t * 2.2) * 10, s: lerp(.05, 1, kgn), r: (1 - kgn) * 40, o: p(t, 1.4, .25) });
+    animGenie(g, t, { waveAt: 2.4 });
+    pop($('#s3ai'), t, 2.7, { dy: 0, s0: 2.2, d: .6, ease: E.out5 });
+    const ww = $('#s3word'); pop(ww, t, 2.9, { dy: 0, s0: .4, d: .9 });
+    ww.style.letterSpacing = lerp(30, -3, p(t, 2.9, 1.2)) + 'px';
+    words($('#s3tag1'), t, 4.7, { st: .1 });
+    words($('#s3tag2'), t, 6.0, { st: .12 });
   },
   s4(t) {
     pop($('#s4chip'), t, .05, { dy: -30 }); words($('#s4h'), t, .2);
-    pop($('#s4in'), t, .4, { dy: 80, s0: .9 });
-    type($('#s4type'), 'اكتب لي إعلاناً لمنتجي', t, .7, 1.2);
-    $('#s4caret').style.opacity = (t < 2.1 && Math.floor(t * 3) % 2 === 0) ? 1 : 0;
-    const kb = p(t, 2.0, .5, E.out);
-    set($('#s4beam'), { o: kb * (1 - p(t, 2.9, .4)) }); add($('#s4beam'), `scaleY(${kb})`);
-    const kw = p(t, 2.1, .7, E.back);
-    set($('#s4wand'), { s: kw * (1 + .15 * Math.sin(t * 7)), r: t * 140, o: p(t, 2.1, .2) });
-    pop($('#s4out'), t, 2.5, { dy: 120, s0: .85 });
+    pop($('#s4in'), t, .35, { dy: 100, s0: .85, rx0: 45 });
+    type($('#s4type'), 'اكتب لي إعلاناً لمنتجي', t, .6, 1.1);
+    $('#s4caret').style.opacity = (t < 2.0 && Math.floor(t * 3) % 2 === 0) ? 1 : 0;
+    const kb = p(t, 1.9, .5, E.out);
+    set($('#s4beam'), { o: kb * (1 - p(t, 2.8, .4)) }); add($('#s4beam'), `scaleY(${kb})`);
+    const kw = p(t, 2.0, .7, E.back);
+    set($('#s4wand'), { s: kw * (1 + .15 * Math.sin(t * 7)), r: t * 140, o: p(t, 2.0, .2) });
+    pop($('#s4out'), t, 2.4, { dy: 140, s0: .8, rx0: 45 });
     const rows = $$('#s4out .row');
-    [3.7, 4.4, 5.2, 6.0, 6.7].forEach((at, i) => pop(rows[i], t, at, { dx: 90, dy: 0, s0: 1 }));
-    const q = lerp(32, 96, p(t, 3.7, 3.6, E.inOut));
+    [3.6, 4.4, 5.2, 6.1, 6.8].forEach((at, i) => {
+      pop(rows[i].firstChild, t, at, { dx: 60, dy: 0, s0: .6 }); rows[i].style.opacity = t >= at ? 1 : 0;
+      const tx = rows[i].lastChild; tx.dataset.full ??= tx.textContent;
+      type(tx, tx.dataset.full, t, at + .15, .55);
+    });
+    const q = lerp(32, 96, p(t, 3.6, 3.6, E.inOut));
     $('#s4num').textContent = Math.round(q) + '%';
     $('#s4num').style.color = q < 60 ? '#ff8a8a' : q < 85 ? '#ffe29a' : '#3ee6a0';
     $('#s4fill').style.transform = `scaleX(${q / 100})`;
-    // subtle camera push
-    $('#s4').style.transform += ` scale(${lerp(1, 1.035, p(t, 0, 8, E.lin))})`;
+    $('#s4').style.transform += ` scale(${lerp(1, 1.04, p(t, 0, 8, E.lin))})`;
   },
   s5(t) {
     pop($('#s5chip'), t, .05, { dy: -30 }); words($('#s5h'), t, .2);
     const cards = $$('#s5grid .tpl');
-    const hl = [3.6, 4.4, 5.3, 6.2]; // spoken: تسويق، كتابة، برمجة، تصميم
+    const hl = [3.6, 4.4, 5.3, 6.2];
     cards.forEach((c, i) => {
-      pop(c, t, .8 + i * .1, { dy: 110, s0: .5 });
+      pop(c, t, .8 + i * .1, { dy: 120, s0: .5, rx0: 70 });
       const h = i < 4 ? p(t, hl[i], .35, E.back) * (1 - p(t, hl[i] + .75, .4)) : 0;
       if (h > .001) add(c, `scale(${1 + h * .1})`);
       c.style.borderColor = h > .01 ? `rgba(255,200,87,${h})` : '';
@@ -508,7 +565,7 @@ const S = {
   s6(t) {
     pop($('#s6chip'), t, .05, { dy: -30 }); words($('#s6h'), t, .2);
     pop($('#s6orb'), t, .5, { s0: .2, dy: 0 });
-    add($('#s6orb'), `scale(${1 + .05 * Math.sin(t * 3)})`);
+    add($('#s6orb'), `scale(${1 + .05 * Math.sin(t * 3)}) rotate(${t * 20}deg)`);
     const lines = [...$('#links').children];
     const pos = [[-1, -1], [1, -.4], [-1, .35], [1, 1], [-.1, 1.45], [.1, -1.45]];
     $$('#s6models .model').forEach((m, i) => {
@@ -516,7 +573,7 @@ const S = {
       const k = p(t, at, .8, E.back);
       const bob = Math.sin(t * 1.6 + i) * 12;
       const px = pos[i][0] * 250 * k, py = pos[i][1] * 330 * k + bob;
-      set(m, { x: px, y: py, s: lerp(.3, 1, k), o: p(t, at, .35) });
+      set(m, { x: px, y: py, s: lerp(.3, 1, k), o: p(t, at, .35), ry: (1 - k) * 90 });
       const l = lines[i];
       l.setAttribute('x1', 540); l.setAttribute('y1', 920);
       l.setAttribute('x2', 540 + px); l.setAttribute('y2', 920 + py);
@@ -528,7 +585,7 @@ const S = {
     pop($('#s7chip'), t, .05, { dy: -30 }); words($('#s7h'), t, .2);
     pop($('#s7tabs'), t, .6, { dy: 40 });
     ['#s7c1', '#s7c2', '#s7c3'].forEach((id, i) => {
-      pop($(id), t, .7 + i * .15, { dx: -140, dy: 0 });
+      pop($(id), t, .7 + i * .15, { dx: -160, dy: 0, ry0: -50 });
       const st = $(id + ' .star'); const k = p(t, 1.4 + i * .2, .5, E.back);
       st.style.color = k > .5 ? 'var(--gold)' : ''; st.style.transform = `scale(${1 + .6 * Math.sin(Math.PI * clamp(k))}) rotate(${k * 72}deg)`;
     });
@@ -545,8 +602,8 @@ const S = {
   },
   s8(t) {
     words($('#s8h'), t, .1); words($('#s8h2'), t, .5);
-    set($('#s8line'), { o: p(t, 1.8, .2) }); add($('#s8line'), `scaleY(${p(t, 1.8, 1.6, E.inOut)})`);
-    [['#s8a', '#s8la', 1.8], ['#s8b', '#s8lb', 2.5], ['#s8c', '#s8lc', 3.2]].forEach(([a, b, at]) => {
+    set($('#s8line'), { o: p(t, 1.9, .2) }); add($('#s8line'), `scaleY(${p(t, 1.9, 1.6, E.inOut)})`);
+    [['#s8a', '#s8la', 1.9], ['#s8b', '#s8lb', 2.6], ['#s8c', '#s8lc', 3.3]].forEach(([a, b, at]) => {
       pop($(a), t, at, { s0: .1, dy: 0, ease: E.elastic, d: 1.1 });
       pop($(b), t, at + .12, { dx: 120, dy: 0 });
     });
@@ -554,7 +611,7 @@ const S = {
   s9(t) {
     pop($('#s9h'), t, .05, { dy: -40 });
     [['#s9a', .3], ['#s9b', 1.4], ['#s9c', 2.5]].forEach(([id, at], i) => {
-      pop($(id), t, at, { dx: i % 2 ? -200 : 200, dy: 0, s0: .9 });
+      pop($(id), t, at, { dx: i % 2 ? -220 : 220, dy: 0, s0: .9, ry0: i % 2 ? 50 : -50 });
       add($(id), `translateY(${Math.sin(t * 2 + i) * 6}px)`);
       const ic = $(id + ' .ic'); const k = p(t, at + .2, .7, E.elastic);
       ic.style.transform = `scale(${k}) rotate(${(1 - k) * -40}deg)`;
@@ -563,15 +620,36 @@ const S = {
   s10(t) {
     const kg = p(t, 0, 1);
     set($('#s10glow'), { s: lerp(.3, 1, kg) * (1 + .06 * Math.sin(t * 3)), o: kg * .85 });
-    pop($('#s10lamp'), t, .05, { dy: 100, s0: .5 }); add($('#s10lamp'), `translateY(${Math.sin(t * 2.2) * 12}px)`);
+    pop($('#s10lamp'), t, .05, { dy: 100, s0: .5 }); add($('#s10lamp'), `translateY(${Math.sin(t * 2.2) * 10}px)`);
+    const g = $('#s10genie'); const kgn = p(t, .3, 1, E.back);
+    set(g, { x: (1 - kgn) * 60, y: (1 - kgn) * 220 + Math.sin(t * 2.2) * 12, s: lerp(.05, 1, kgn), o: p(t, .3, .25) });
+    animGenie(g, t, { waveAt: 1.2 });
     burst(sparks10, t, .5);
     words($('#s10h'), t, .45, { st: .25, s0: .3 });
-    pop($('#s10url'), t, 1.7, { s0: .4, dy: 60 });
-    add($('#s10url'), `scale(${1 + .04 * Math.sin(t * 5) * p(t, 2.4, .5)})`);
-    pop($('#s10tap'), t, 2.6, { dy: 40 });
-    add($('#s10tap'), `translateY(${Math.sin(t * 4) * 8 * p(t, 3, .4)}px)`);
+    pop($('#s10url'), t, 1.8, { s0: .4, dy: 60, rx0: 60 });
+    add($('#s10url'), `scale(${1 + .04 * Math.sin(t * 5) * p(t, 2.5, .5)})`);
+    $$('#s10 .uring').forEach((r, i) => { const k = ((t - 2.4 - i * .6) % 1.2 + 1.2) % 1.2 / 1.2; set(r, { s: 1 + k * .35, o: t > 2.4 + i * .6 ? .8 * (1 - k) : 0 }); });
+    pop($('#s10tap'), t, 2.8, { dy: 40 });
+    add($('#s10tap'), `translateY(${Math.sin(t * 4) * 8 * p(t, 3.2, .4)}px)`);
+    confetti.forEach(c => {
+      const k = t - .5 - c.delay;
+      if (k < 0) { c.d.style.opacity = 0; return; }
+      const x = c.x0 + c.vx * k, y = c.y0 + c.vy * k + 900 * k * k;
+      c.d.style.opacity = clamp(1 - (k - 2.4) / .8);
+      c.d.style.transform = `translate(${x}px,${y}px) rotate(${c.r * k}deg) rotateX(${c.rx * k}deg)`;
+    });
   },
 };
+
+// genie mascot: tail sway, blinking, bobbing head, waving arm
+function animGenie(g, t, { waveAt = 0 } = {}) {
+  g.querySelector('.tail').style.transform = `rotate(${Math.sin(t * 3) * 6}deg) skewX(${Math.sin(t * 2.4) * 6}deg)`;
+  g.querySelector('.head').style.transform = `rotate(${Math.sin(t * 1.7) * 4}deg)`;
+  const bl = (t % 3.1) < .12 ? .1 : 1;
+  g.querySelector('.eyes').style.transform = `scaleY(${bl})`;
+  const wave = p(t, waveAt, .3) * Math.sin((t - waveAt) * 9) * 18;
+  g.querySelector('.armR').style.transform = `rotate(${wave}deg)`;
+}
 
 // cursor keyframes: [time, x, y, opacity]; clicks squeeze cursor + ripple
 const cursor = $('#cursor'), ripple = $('#ripple');
@@ -630,14 +708,15 @@ function transitions(t) {
   el.style.opacity = sw < 0 ? 0 : Math.sin(Math.PI * sw) * .9;
   el.style.transform = `translateX(${lerp(1300, -600, sw < 0 ? 0 : E.inOut(sw))}px) rotate(12deg)`;
   // flashes: logo reveal + CTA
-  const f = Math.max(p(t, 13.15, .08) * (1 - p(t, 13.23, .6)), p(t, 59.9, .08) * (1 - p(t, 59.98, .6)));
+  const f = Math.max(p(t, LOGO_HIT, .08) * (1 - p(t, LOGO_HIT + .08, .6)), p(t, CTA_HIT, .08) * (1 - p(t, CTA_HIT + .08, .6)));
   $('#flash').style.opacity = f;
   // brand bar during feature scenes, progress dots
-  const bo = p(t, 20.1, .5) * (1 - p(t, 59.2, .4));
+  const bo = p(t, TL[3][1], .5) * (1 - p(t, TL[9][1] - .2, .4));
   $('#brand').style.opacity = bo;
   const dots = $$('#dots i b');
   TL.forEach(([, a, b], i) => dots[i].style.transform = `scaleX(${clamp((t - a) / (b - a))})`);
-  $('#dots').style.opacity = 1 - p(t, 65, .8);
+  $('#dots').style.opacity = 1 - p(t, DURATION - 1, .8);
+  $('#stage').style.setProperty('--sh', ((t * 22) % 100) + '%');
 }
 
 function seek(t) {
@@ -651,7 +730,10 @@ function seek(t) {
     const fin = a === 0 ? 1 : p(lt, 0, .4);
     const fout = b === DURATION ? 1 - p(t, b - .9, .9) : 1 - p(t, b - .35, .35, E.inOut);
     el.style.opacity = Math.min(fin, fout);
-    el.style.transform = `scale(${lerp(1.12, 1, fin) * lerp(.9, 1, fout)})`;
+    const push = a >= TL[3][1] && a < TL[9][1];
+    el.style.transform = push
+      ? `translateY(${lerp(260, 0, E.out(fin)) + lerp(-260, 0, fout)}px) scale(${lerp(1.06, 1, fin) * lerp(.94, 1, fout)})`
+      : `scale(${lerp(1.18, 1, fin) * lerp(.88, 1, fout)})`;
     el.style.filter = (fin < 1 || fout < 1) ? `blur(${(1 - Math.min(fin, fout)) * 14}px)` : '';
     S[id](lt);
   }
