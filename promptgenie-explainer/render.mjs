@@ -1,4 +1,4 @@
-// Renders index.html frame-by-frame into an MP4 (1920x1080, 30fps).
+// Renders index.html frame-by-frame into a silent MP4 (1080x1920, 30fps); see build.sh for audio.
 // Usage: node render.mjs [out.mp4] [--frames=t1,t2,...]   (--frames saves PNG stills instead)
 // Needs Playwright (Chromium) and an ffmpeg binary (FFMPEG env var, or `ffmpeg` on PATH).
 import { spawn } from 'node:child_process';
@@ -14,11 +14,11 @@ catch { ({ chromium } = await import(path.join(process.env.PW_GLOBAL || '/opt/no
 const dir = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const stills = args.find(a => a.startsWith('--frames='));
-const out = args.find(a => !a.startsWith('--')) || path.join(dir, 'promptgenie-explainer.mp4');
+const out = args.find(a => !a.startsWith('--')) || path.join(dir, 'video-silent.mp4');
 const FPS = 30;
 
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
 await page.goto(pathToFileURL(path.join(dir, 'index.html')).href + '?capture');
 await page.evaluate(() => window.fontsReady);
 await page.waitForTimeout(500);

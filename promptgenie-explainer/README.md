@@ -1,13 +1,14 @@
-# AI PromptGenie — فيديو موشن جرافيك تعريفي
+# AI PromptGenie — فيديو موشن جرافيك تعريفي (نسخة الجوال)
 
-- `promptgenie-explainer.mp4` — الفيديو النهائي (1920×1080، 30fps، 62 ثانية، بدون صوت).
-- `index.html` — المصدر المتحرك؛ افتحه في المتصفح للمعاينة (المسافة = إيقاف/تشغيل، الشريط السفلي للتنقل).
-- `render.mjs` — يحوّل الصفحة إلى MP4 إطاراً بإطار:
+- `promptgenie-explainer-mobile.mp4` — الفيديو النهائي: 1080×1920 (9:16)، 30fps، 66 ثانية، مع تعليق صوتي عربي وموسيقى ومؤثرات وترجمة نصية متزامنة.
+- `index.html` — مصدر الأنيميشن (10 مشاهد). افتحه في المتصفح للمعاينة: المسافة = إيقاف/تشغيل، M أو النقر = تشغيل الصوت.
+- `audio/vo/*.flac` — سطور التعليق الصوتي (نص مشكول في `audio/vo-script.txt`، مولّدة محلياً بصوت Piper ar_JO-kareem).
+- `audio/build_audio.py` — يولّد الموسيقى والمؤثرات برمجياً ويمزجها مع التعليق مع خفض الموسيقى تحت الصوت.
+- `render.mjs` — يحوّل الصفحة إلى فيديو إطاراً بإطار (Playwright).
 
 ```bash
-FFMPEG=/path/to/ffmpeg node render.mjs            # فيديو كامل
-node render.mjs --frames=5,24,60                  # صور ثابتة للمراجعة
+FFMPEG=/path/to/ffmpeg ./build.sh          # بناء كامل: صوت + فيديو + دمج
+node render.mjs --frames=5,24,60          # صور ثابتة للمراجعة
 ```
 
-يتطلب Playwright (Chromium) وffmpeg. النصوص والخصائص موجودة مباشرة داخل `index.html`
-(المشاهد s1…s10، ومصفوفتا `templates` و`models`) لتعديلها ثم إعادة التصيير.
+التوقيتات موجودة في `TL` و`VO` داخل `index.html` وفي `SCENES`/`VO_STARTS` داخل `build_audio.py` — عدّلهما معاً.

@@ -13,118 +13,132 @@
 @font-face{font-family:Tajawal;font-weight:700;font-display:block;src:url(fonts/Tajawal-700.ttf) format('truetype')}
 @font-face{font-family:Tajawal;font-weight:800;font-display:block;src:url(fonts/Tajawal-800.ttf) format('truetype')}
 @font-face{font-family:Tajawal;font-weight:900;font-display:block;src:url(fonts/Tajawal-900.ttf) format('truetype')}
-</style>
-<style>
 :root{
   --bg1:#0a0620;--bg2:#170c3f;--violet:#7c5cff;--violet2:#a78bff;--pink:#ff5ca8;
-  --gold:#ffc857;--gold2:#ffe29a;--cyan:#38e1ff;--green:#3ee6a0;
-  --text:#f5f2ff;--muted:#a9a1d4;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.14);
+  --gold:#ffc857;--gold2:#ffe29a;--cyan:#38e1ff;--green:#3ee6a0;--red:#ff6b6b;
+  --text:#f5f2ff;--muted:#b3abdc;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.14);
 }
 html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 #wrap{position:fixed;inset:0;display:grid;place-items:center}
 #stage{
-  width:1920px;height:1080px;position:relative;overflow:hidden;flex:none;
+  width:1080px;height:1920px;position:relative;overflow:hidden;flex:none;
   font-family:Tajawal,sans-serif;color:var(--text);
-  background:
-    radial-gradient(1100px 760px at 78% 12%,#2c1675 0%,transparent 62%),
-    radial-gradient(900px 700px at 12% 92%,#44105f 0%,transparent 60%),
-    linear-gradient(160deg,var(--bg1),var(--bg2));
+  background:linear-gradient(170deg,var(--bg1),var(--bg2) 55%,#1d0b3a);
 }
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
 .scene{position:absolute;inset:0;opacity:0;display:none}
 .el{position:absolute;transform:translate(-50%,-50%)}
 .latin{font-family:Inter,sans-serif;direction:ltr;unicode-bidi:isolate}
 .grad{background:linear-gradient(90deg,var(--gold2),var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
 .gradv{background:linear-gradient(90deg,var(--cyan),var(--violet2),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
-.h1{font-size:76px;font-weight:900;white-space:nowrap;letter-spacing:-.5px}
-.h2{font-size:60px;font-weight:800;white-space:nowrap}
-.sub{font-size:34px;color:var(--muted);font-weight:500;white-space:nowrap}
-.chip{display:inline-flex;align-items:center;gap:12px;padding:10px 26px;border-radius:999px;background:rgba(124,92,255,.18);border:1px solid rgba(167,139,255,.45);font-size:28px;font-weight:700;color:var(--violet2);white-space:nowrap}
-.card{background:var(--card);border:1px solid var(--line);border-radius:28px;backdrop-filter:blur(12px);box-shadow:0 30px 80px rgba(0,0,0,.35)}
-.caret{display:inline-block;width:4px;height:1em;background:var(--gold);margin-inline-start:4px;vertical-align:-4px}
+.w{display:inline-block;white-space:pre}
+.h1{font-size:104px;font-weight:900;white-space:nowrap;line-height:1.25;text-align:center}
+.h2{font-size:74px;font-weight:900;white-space:nowrap;text-align:center;line-height:1.3}
+.sub{font-size:40px;color:var(--muted);font-weight:500;white-space:nowrap;text-align:center}
+.chip{display:inline-flex;align-items:center;gap:12px;padding:12px 30px;border-radius:999px;background:rgba(124,92,255,.2);border:1px solid rgba(167,139,255,.5);font-size:34px;font-weight:800;color:var(--violet2);white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:34px;backdrop-filter:blur(14px);box-shadow:0 40px 90px rgba(0,0,0,.4)}
+.caret{display:inline-block;width:5px;height:1em;background:var(--gold);margin-inline-start:6px;vertical-align:-6px}
 
-/* particles */
 #particles{position:absolute;inset:0;pointer-events:none}
 #particles i{position:absolute;border-radius:50%;background:#fff}
+#flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,236,190,.95),rgba(255,200,87,.5) 30%,transparent 70%);opacity:0;pointer-events:none;z-index:40}
+#sweep{position:absolute;top:-20%;height:140%;width:360px;left:0;background:linear-gradient(90deg,transparent,rgba(167,139,255,.35),rgba(255,255,255,.55),rgba(255,92,168,.35),transparent);filter:blur(18px);opacity:0;pointer-events:none;z-index:39}
 
-/* S1 chat */
-#s1 .chat{width:1080px;height:600px;padding:0;overflow:hidden}
-.chat .bar{height:72px;display:flex;align-items:center;gap:14px;padding:0 32px;border-bottom:1px solid var(--line);font-size:26px;color:var(--muted);font-weight:700}
-.chat .bar b{width:16px;height:16px;border-radius:50%;background:#ff6b6b;display:inline-block}
-.chat .bar b:nth-child(2){background:#ffd166}.chat .bar b:nth-child(3){background:#3ee6a0}
-.chat .body{padding:40px 44px;display:flex;flex-direction:column;gap:30px}
-.bubble{max-width:70%;padding:22px 30px;border-radius:26px;font-size:34px;font-weight:700}
-.bubble.user{align-self:flex-start;background:linear-gradient(135deg,var(--violet),#5a3ddb);border-bottom-right-radius:8px;min-height:44px}
-.bubble.ai{align-self:flex-end;background:rgba(255,255,255,.08);border-bottom-left-radius:8px;width:62%;display:flex;flex-direction:column;gap:16px}
-.skel{height:18px;border-radius:9px;background:rgba(255,255,255,.18)}
-.stamp{position:absolute;padding:14px 28px;border:4px solid #ff6b6b;color:#ff8a8a;border-radius:16px;font-size:36px;font-weight:900;white-space:nowrap;background:rgba(40,8,20,.6)}
+/* brand bar + progress */
+#brand{position:absolute;top:120px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;font-family:Inter,sans-serif;font-weight:800;font-size:34px;direction:ltr;opacity:0;z-index:30;white-space:nowrap}
+#brand svg{width:40px;height:40px}
+#dots{position:absolute;top:70px;left:60px;right:60px;display:flex;gap:10px;z-index:30;direction:rtl}
+#dots i{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden;position:relative}
+#dots i b{position:absolute;inset:0;background:linear-gradient(90deg,var(--pink),var(--gold));transform-origin:right;transform:scaleX(0)}
+
+/* captions */
+#cap{position:absolute;left:50%;top:1640px;transform:translate(-50%,-50%);width:960px;text-align:center;z-index:35;font-size:48px;font-weight:800;line-height:1.35;opacity:0}
+#cap .cw{display:inline-block;padding:2px 8px;border-radius:12px;color:rgba(255,255,255,.55);transition:none}
+#cap .cw.on{color:#fff}
+#cap .cw.now{background:linear-gradient(90deg,var(--gold),var(--pink));color:#1a0b2e}
+#capbg{position:absolute;left:50%;top:1640px;transform:translate(-50%,-50%);width:1000px;height:170px;border-radius:36px;background:rgba(8,4,24,.62);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);z-index:34;opacity:0}
+
+/* S1 */
+.chat{width:940px;height:700px;padding:0;overflow:hidden}
+.chat .bar{height:86px;display:flex;align-items:center;gap:14px;padding:0 36px;border-bottom:1px solid var(--line);font-size:30px;color:var(--muted);font-weight:700}
+.chat .bar b{width:18px;height:18px;border-radius:50%;background:var(--red);display:inline-block}
+.chat .bar b:nth-child(2){background:#ffd166}.chat .bar b:nth-child(3){background:var(--green)}
+.chat .body{padding:44px 44px;display:flex;flex-direction:column;gap:34px}
+.bubble{padding:26px 34px;border-radius:30px;font-size:42px;font-weight:700}
+.bubble.user{align-self:flex-start;background:linear-gradient(135deg,var(--violet),#5a3ddb);border-bottom-right-radius:8px;min-height:52px;max-width:80%}
+.bubble.ai{align-self:flex-end;background:rgba(255,255,255,.08);border-bottom-left-radius:8px;width:72%;display:flex;flex-direction:column;gap:20px;position:relative}
+.skel{height:22px;border-radius:11px;background:rgba(255,255,255,.2)}
+.think{display:flex;gap:12px;align-self:flex-end;padding:24px 34px;border-radius:30px;background:rgba(255,255,255,.08);position:absolute;left:44px;top:250px}
+.think i{width:18px;height:18px;border-radius:50%;background:var(--muted)}
+.stamp{padding:18px 34px;border:5px solid var(--red);color:#ff9a9a;border-radius:20px;font-size:48px;font-weight:900;white-space:nowrap;background:rgba(40,8,20,.75)}
 
 /* S2 */
 .strike{position:relative;display:inline-block}
-.strike::after{content:"";position:absolute;left:-6px;right:-6px;top:52%;height:6px;background:#ff6b6b;border-radius:3px;transform:scaleX(var(--k,0));transform-origin:right}
+.strike::after{content:"";position:absolute;left:-10px;right:-10px;top:55%;height:10px;background:var(--red);border-radius:5px;transform:scaleX(var(--k,0));transform-origin:right;box-shadow:0 0 20px rgba(255,107,107,.6)}
 .underline{position:relative;display:inline-block}
-.underline::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--pink));transform:scaleX(var(--k,0));transform-origin:right}
+.underline::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--gold),var(--pink));transform:scaleX(var(--k,0));transform-origin:right}
 
-/* S3 lamp */
-.glow{width:760px;height:760px;border-radius:50%;background:radial-gradient(circle,rgba(255,200,87,.55),rgba(255,92,168,.18) 45%,transparent 70%)}
-.spark{width:30px;height:30px}
+/* S3 */
+.glow{border-radius:50%;background:radial-gradient(circle,rgba(255,200,87,.6),rgba(255,92,168,.2) 45%,transparent 70%)}
+.ring{border-radius:50%;border:6px solid rgba(255,226,154,.8);box-shadow:0 0 40px rgba(255,200,87,.6)}
+.spark{width:36px;height:36px}
 
-/* S4 optimizer */
-.inputcard{width:520px;padding:34px 36px}
-.label{font-size:24px;color:var(--muted);font-weight:700;margin-bottom:16px}
-.inputtext{font-size:36px;font-weight:700;padding:22px 24px;border-radius:18px;background:rgba(0,0,0,.25);border:1px solid var(--line);min-height:44px}
-.outcard{width:860px;padding:34px 40px}
-.row{display:flex;align-items:flex-start;gap:18px;font-size:30px;line-height:1.45;padding:14px 0;border-bottom:1px dashed rgba(255,255,255,.1)}
-.row:last-child{border-bottom:0}
-.row .tag{flex:none;min-width:150px;padding:4px 16px;border-radius:12px;font-weight:800;font-size:26px;text-align:center}
-.meter{width:520px;padding:28px 36px}
-.meter .track{height:22px;border-radius:11px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:16px}
-.meter .fill{height:100%;border-radius:11px;background:linear-gradient(90deg,#ff6b6b,var(--gold),var(--green));transform-origin:right}
-.meter .num{font-size:64px;font-weight:900}
+/* S4 */
+.inputcard{width:900px;padding:36px 40px;box-sizing:border-box}
+.label{font-size:30px;color:var(--muted);font-weight:700;margin-bottom:18px}
+.inputtext{font-size:46px;font-weight:800;padding:26px 28px;border-radius:22px;background:rgba(0,0,0,.28);border:1px solid var(--line);min-height:58px}
+.outcard{width:960px;padding:36px 40px;box-sizing:border-box}
+.row{display:flex;align-items:center;gap:20px;font-size:34px;line-height:1.4;padding:16px 0;border-bottom:1px dashed rgba(255,255,255,.12)}
+.row .tag{flex:none;min-width:190px;padding:8px 16px;border-radius:14px;font-weight:800;font-size:31px;text-align:center}
+.meterrow{display:flex;align-items:center;gap:24px;margin-top:22px}
+.meterrow .track{flex:1;height:22px;border-radius:11px;background:rgba(255,255,255,.1);overflow:hidden}
+.meterrow .fill{height:100%;width:100%;border-radius:11px;background:linear-gradient(270deg,var(--red),var(--gold),var(--green));transform-origin:right}
+.meterrow .num{font-size:56px;font-weight:800;min-width:150px;text-align:left}
+.beam{width:10px;height:150px;border-radius:5px;background:linear-gradient(180deg,rgba(255,200,87,0),var(--gold),rgba(255,92,168,.9));transform-origin:top}
 
-/* S5 templates */
-.tpl{width:300px;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font-size:32px;font-weight:800}
-.tpl .ic{font-size:60px;line-height:1}
+/* S5 */
+.tpl{width:440px;height:200px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:24px;font-size:44px;font-weight:800}
+.tpl .ic{font-size:72px;line-height:1}
 
-/* S6 models */
-.orb{width:260px;height:260px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#9b82ff,#5a3ddb 60%,#2a1670);box-shadow:0 0 120px rgba(124,92,255,.7),inset 0 0 40px rgba(255,255,255,.25)}
-.model{padding:18px 34px;border-radius:22px;font-size:34px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:14px}
-.model .dot{width:18px;height:18px;border-radius:50%}
+/* S6 */
+.orb{width:300px;height:300px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#9b82ff,#5a3ddb 60%,#2a1670);box-shadow:0 0 140px rgba(124,92,255,.75),inset 0 0 40px rgba(255,255,255,.25)}
+.model{padding:22px 38px;border-radius:26px;font-size:42px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:16px}
+.model .dot{width:22px;height:22px;border-radius:50%}
 #links{position:absolute;inset:0}
 
-/* S7 saved */
-.saved{width:820px;padding:26px 34px;display:flex;align-items:center;gap:24px}
-.saved .star{font-size:40px;color:var(--gold)}
+/* S7 */
+.tabs{display:flex;gap:18px}
+.tab{padding:16px 30px;border-radius:999px;font-size:34px;font-weight:800;background:rgba(255,255,255,.07);border:1px solid var(--line);white-space:nowrap}
+.saved{width:940px;box-sizing:border-box;padding:30px 36px;display:flex;align-items:center;gap:26px}
+.saved .star{font-size:52px;color:rgba(255,255,255,.25);display:inline-block}
 .saved .t{flex:1}
-.saved .t b{display:block;font-size:32px;font-weight:800}
-.saved .t span{font-size:24px;color:var(--muted)}
-.copybtn{padding:14px 26px;border-radius:14px;background:rgba(124,92,255,.25);border:1px solid rgba(167,139,255,.5);font-size:26px;font-weight:800;color:var(--violet2);white-space:nowrap}
-.side{width:380px;padding:30px}
-.folder{display:flex;align-items:center;gap:16px;font-size:30px;font-weight:700;padding:16px 18px;border-radius:14px}
-.folder.on{background:rgba(124,92,255,.22)}
-.folder em{font-style:normal;margin-inline-start:auto;font-size:24px;color:var(--muted)}
-.toast{padding:20px 40px;border-radius:18px;background:var(--green);color:#062a1b;font-size:32px;font-weight:900;white-space:nowrap;box-shadow:0 20px 60px rgba(62,230,160,.35)}
-#cursor{width:54px;height:54px;z-index:50;transform:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.saved .t b{display:block;font-size:40px;font-weight:800}
+.saved .t span{font-size:28px;color:var(--muted)}
+.copybtn{padding:18px 32px;border-radius:18px;background:rgba(124,92,255,.28);border:1px solid rgba(167,139,255,.55);font-size:32px;font-weight:800;color:var(--violet2);white-space:nowrap;display:inline-block}
+.toast{padding:24px 46px;border-radius:22px;background:var(--green);color:#062a1b;font-size:40px;font-weight:900;white-space:nowrap;box-shadow:0 20px 70px rgba(62,230,160,.45)}
+#cursor{width:64px;height:64px;z-index:50;transform:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+#ripple{width:120px;height:120px;border-radius:50%;border:5px solid #fff;z-index:49;opacity:0}
 
-/* S8 steps */
-.step{width:210px;height:210px;border-radius:50%;display:grid;place-items:center;font-size:96px;font-weight:900;background:radial-gradient(circle at 35% 30%,#9b82ff,#4a2fc4);box-shadow:0 0 0 12px rgba(124,92,255,.15),0 0 80px rgba(124,92,255,.5)}
-.steplabel{text-align:center;white-space:nowrap}
-.steplabel b{display:block;font-size:40px;font-weight:900;margin-bottom:10px}
-.steplabel span{font-size:28px;color:var(--muted)}
-.line{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--pink),var(--violet),var(--cyan));transform-origin:right}
+/* S8 */
+.step{width:210px;height:210px;border-radius:50%;display:grid;place-items:center;font-size:100px;font-weight:900;background:radial-gradient(circle at 35% 30%,#9b82ff,#4a2fc4);box-shadow:0 0 0 14px rgba(124,92,255,.15),0 0 90px rgba(124,92,255,.55)}
+.steplabel{white-space:nowrap}
+.steplabel b{display:block;font-size:58px;font-weight:900;margin-bottom:8px}
+.steplabel span{font-size:34px;color:var(--muted)}
+.vline{width:10px;border-radius:5px;background:linear-gradient(180deg,var(--cyan),var(--violet),var(--pink));transform-origin:top}
 
-/* S9 benefits */
-.benefit{width:420px;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center}
-.benefit .ic{font-size:96px;line-height:1}
-.benefit b{font-size:44px;font-weight:900}
-.benefit span{font-size:28px;color:var(--muted);padding:0 30px;line-height:1.4}
+/* S9 */
+.benefit{width:940px;height:250px;box-sizing:border-box;display:flex;align-items:center;gap:40px;padding:0 50px}
+.benefit .ic{font-size:110px;line-height:1;display:inline-block}
+.benefit b{display:block;font-size:64px;font-weight:900}
+.benefit span{font-size:34px;color:var(--muted)}
 
-/* S10 CTA */
-.url{padding:26px 64px;border-radius:999px;font-size:60px;font-weight:800;background:linear-gradient(90deg,var(--gold),var(--pink));color:#1a0b2e;box-shadow:0 0 90px rgba(255,200,87,.55)}
+/* S10 */
+.url{padding:30px 60px;border-radius:999px;font-size:62px;font-weight:800;background:linear-gradient(90deg,var(--gold),var(--pink));color:#1a0b2e;box-shadow:0 0 110px rgba(255,200,87,.6);white-space:nowrap}
+.tap{font-size:40px;font-weight:800;color:var(--gold2);white-space:nowrap}
 
-/* player UI (hidden in capture) */
 #ui{position:fixed;left:0;right:0;bottom:0;height:6px;background:rgba(255,255,255,.1);cursor:pointer}
 #ui div{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--pink))}
-#hint{position:fixed;top:14px;left:50%;transform:translateX(-50%);font:600 14px Tajawal,sans-serif;color:#b8b0e0;opacity:.7}
+#hint{position:fixed;top:10px;left:50%;transform:translateX(-50%);font:600 13px Tajawal,sans-serif;color:#b8b0e0;opacity:.7;white-space:nowrap}
 .capture #ui,.capture #hint{display:none}
 </style>
 </head>
@@ -133,41 +147,8 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
     <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0c2"/><stop offset=".45" stop-color="#ffc857"/><stop offset="1" stop-color="#b8741a"/></linearGradient>
     <linearGradient id="smk" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffe29a"/><stop offset=".6" stop-color="#a78bff"/><stop offset="1" stop-color="#ff5ca8" stop-opacity=".2"/></linearGradient>
-  </defs></svg>
-  <div id="particles"></div>
-
-  <!-- ============ S1 : Hook ============ -->
-  <section class="scene" id="s1">
-    <div class="el h2" id="s1cap" style="left:960px;top:150px">فكرتك رائعة… <span class="grad">لكن النتيجة عادية؟</span></div>
-    <div class="el card chat" id="s1chat" style="left:960px;top:610px">
-      <div class="bar"><b></b><b></b><b></b><span style="margin-inline-start:18px">مساعد الذكاء الاصطناعي</span></div>
-      <div class="body">
-        <div class="bubble user"><span id="s1type"></span><span class="caret" id="s1caret"></span></div>
-        <div class="bubble ai" id="s1ai">
-          <div class="skel" style="width:92%"></div>
-          <div class="skel" style="width:78%"></div>
-          <div class="skel" style="width:85%"></div>
-          <div class="skel" style="width:55%"></div>
-        </div>
-      </div>
-    </div>
-    <div class="el stamp" id="s1stamp" style="left:700px;top:740px">😕 ردّ عام وغير مفيد</div>
-  </section>
-
-  <!-- ============ S2 : Problem ============ -->
-  <section class="scene" id="s2">
-    <div class="el h1" id="s2a" style="left:960px;top:400px">المشكلة ليست في <span class="strike" id="s2strike">الذكاء الاصطناعي</span></div>
-    <div class="el h1" id="s2b" style="left:960px;top:560px">بل في <span class="underline grad" id="s2under">طريقة كتابة الأمر</span></div>
-    <div class="el sub" id="s2c" style="left:960px;top:700px">الـ <span class="latin">Prompt</span> الجيد = نتيجة مذهلة</div>
-  </section>
-
-  <!-- ============ S3 : Logo reveal ============ -->
-  <section class="scene" id="s3">
-    <div class="el glow" id="s3glow" style="left:960px;top:390px"></div>
-    <svg class="el" id="s3smoke" style="left:1010px;top:290px" width="420" height="360" viewBox="0 0 420 360" fill="none">
-      <path id="smokepath" d="M300 350 C 360 300 380 250 320 220 C 250 185 170 230 190 170 C 210 110 300 140 280 80 C 265 35 200 30 210 10" stroke="url(#smk)" stroke-width="16" stroke-linecap="round"/>
-    </svg>
-    <svg class="el" id="s3lamp" style="left:960px;top:470px" width="420" height="280" viewBox="0 0 300 200">
+    <symbol id="star4" viewBox="0 0 100 100"><path d="M50 4 C54 36 64 46 96 50 C64 54 54 64 50 96 C46 64 36 54 4 50 C36 46 46 36 50 4Z"/></symbol>
+    <symbol id="lamp" viewBox="0 0 300 200">
       <path d="M65 110 C25 95 15 145 58 148" stroke="url(#gold)" stroke-width="12" fill="none" stroke-linecap="round"/>
       <path d="M235 112 C262 108 280 88 296 64 C292 94 272 130 230 140Z" fill="url(#gold)"/>
       <path d="M58 122 C58 82 242 82 242 122 C242 152 202 166 150 166 C98 166 58 152 58 122Z" fill="url(#gold)"/>
@@ -176,376 +157,540 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
       <rect x="116" y="160" width="68" height="14" rx="6" fill="#b8741a"/>
       <ellipse cx="150" cy="180" rx="62" ry="10" fill="url(#gold)"/>
       <path d="M90 115 C110 105 150 104 175 108" stroke="#fff6d8" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+    </symbol>
+  </defs></svg>
+
+  <div class="blob" id="b1" style="width:760px;height:760px;background:#4b1fb0"></div>
+  <div class="blob" id="b2" style="width:640px;height:640px;background:#8a1a6e"></div>
+  <div class="blob" id="b3" style="width:520px;height:520px;background:#1a4fb0"></div>
+  <div id="particles"></div>
+
+  <div id="dots"></div>
+  <div id="brand"><svg viewBox="0 0 100 100" fill="#ffc857"><use href="#star4"/></svg><span><span class="gradv">AI</span> <span class="grad">PromptGenie</span></span></div>
+
+  <!-- S1 hook -->
+  <section class="scene" id="s1">
+    <div class="el h1 kw" id="s1a" style="left:540px;top:330px">فكرتك رائعة…</div>
+    <div class="el h1 kw" id="s1b" style="left:540px;top:465px"><span class="grad">لكن النتيجة عادية؟</span></div>
+    <div class="el card chat" id="s1chat" style="left:540px;top:1020px">
+      <div class="bar"><b></b><b></b><b></b><span style="margin-inline-start:18px">مساعد الذكاء الاصطناعي</span></div>
+      <div class="body">
+        <div class="bubble user"><span id="s1type"></span><span class="caret" id="s1caret"></span></div>
+        <div class="bubble ai" id="s1ai">
+          <div class="skel" style="width:92%"></div><div class="skel" style="width:78%"></div>
+          <div class="skel" style="width:86%"></div><div class="skel" style="width:60%"></div>
+          <div class="skel" style="width:70%"></div>
+        </div>
+        <div class="think" id="s1think"><i></i><i></i><i></i></div>
+      </div>
+    </div>
+    <div class="el stamp" id="s1stamp" style="left:560px;top:1300px">😕 ردّ عام وغير مفيد</div>
+  </section>
+
+  <!-- S2 problem -->
+  <section class="scene" id="s2">
+    <div class="el h1 kw" id="s2a" style="left:540px;top:560px">المشكلة ليست في</div>
+    <div class="el h1" id="s2b" style="left:540px;top:700px"><span class="strike kw" id="s2strike">الذكاء الاصطناعي</span></div>
+    <div class="el h1 kw" id="s2c" style="left:540px;top:900px">بل في</div>
+    <div class="el h1" id="s2d" style="left:540px;top:1040px;font-size:112px"><span class="underline" id="s2under"><span class="grad">طريقة كتابة الأمر</span></span></div>
+    <div class="el chip" id="s2chip" style="left:540px;top:1260px;font-size:40px;color:var(--gold2);border-color:rgba(255,200,87,.5);background:rgba(255,200,87,.12)"><span class="latin">Prompt</span> جيد = نتيجة مذهلة ✨</div>
+  </section>
+
+  <!-- S3 logo -->
+  <section class="scene" id="s3">
+    <div class="el glow" id="s3glow" style="left:540px;top:720px;width:900px;height:900px"></div>
+    <div class="el ring" id="s3ring" style="left:540px;top:760px;width:300px;height:300px"></div>
+    <svg class="el" id="s3smoke" style="left:600px;top:560px" width="440" height="420" viewBox="0 0 420 360" fill="none">
+      <path id="smokepath" d="M300 350 C 360 300 380 250 320 220 C 250 185 170 230 190 170 C 210 110 300 140 280 80 C 265 35 200 30 210 10" stroke="url(#smk)" stroke-width="18" stroke-linecap="round"/>
     </svg>
+    <svg class="el" id="s3lamp" style="left:540px;top:820px" width="520" height="347"><use href="#lamp"/></svg>
     <div id="s3sparks"></div>
-    <div class="el latin" id="s3word" style="left:960px;top:760px;font-size:120px;font-weight:800;letter-spacing:-2px;white-space:nowrap"><span class="gradv">AI</span> <span class="grad">PromptGenie</span></div>
-    <div class="el sub" id="s3tag" style="left:960px;top:880px;color:var(--text)">حوّل أي فكرة إلى <b class="grad">برومبت احترافي</b> في ثوانٍ</div>
+    <div class="el latin" id="s3ai" style="left:540px;top:1110px;font-size:120px;font-weight:800;white-space:nowrap"><span class="gradv">AI</span></div>
+    <div class="el latin" id="s3word" style="left:540px;top:1240px;font-size:138px;font-weight:800;letter-spacing:-3px;white-space:nowrap"><span class="grad">PromptGenie</span></div>
+    <div class="el sub kw" id="s3tag1" style="left:540px;top:1390px;color:var(--text);font-size:50px">حوّل أي فكرة إلى</div>
+    <div class="el sub kw" id="s3tag2" style="left:540px;top:1460px;font-size:50px;font-weight:800"><span class="grad">برومبت احترافي في ثوانٍ</span></div>
   </section>
 
-  <!-- ============ S4 : Optimizer ============ -->
+  <!-- S4 optimizer -->
   <section class="scene" id="s4">
-    <div class="el chip" id="s4chip" style="left:960px;top:90px">✨ الميزة الأولى</div>
-    <div class="el h2" id="s4h" style="left:960px;top:175px">محسِّن البرومبت الذكي</div>
-    <div class="el card inputcard" id="s4in" style="left:1500px;top:440px">
+    <div class="el chip" id="s4chip" style="left:540px;top:260px">✨ الميزة الأولى</div>
+    <div class="el h2 kw" id="s4h" style="left:540px;top:360px">محسِّن البرومبت الذكي</div>
+    <div class="el card inputcard" id="s4in" style="left:540px;top:580px">
       <div class="label">فكرتك البسيطة</div>
-      <div class="inputtext" id="s4type"></div>
+      <div class="inputtext"><span id="s4type"></span><span class="caret" id="s4caret"></span></div>
     </div>
-    <div class="el card meter" id="s4meter" style="left:1500px;top:720px">
-      <div class="label" style="margin:0">جودة البرومبت</div>
-      <div class="num latin" id="s4num">32%</div>
-      <div class="track"><div class="fill" id="s4fill"></div></div>
-    </div>
-    <svg class="el" id="s4wand" style="left:1135px;top:560px" width="140" height="140" viewBox="0 0 100 100">
-      <path d="M50 4 C54 36 64 46 96 50 C64 54 54 64 50 96 C46 64 36 54 4 50 C36 46 46 36 50 4Z" fill="#ffc857"/>
-    </svg>
-    <div class="el card outcard" id="s4out" style="left:630px;top:600px">
+    <div class="el beam" id="s4beam" style="left:540px;top:800px"></div>
+    <svg class="el" id="s4wand" style="left:540px;top:790px" width="120" height="120" fill="#ffc857"><use href="#star4"/></svg>
+    <div class="el card outcard" id="s4out" style="left:540px;top:1180px">
       <div class="label">برومبت احترافي جاهز ✨</div>
-      <div class="row"><span class="tag" style="background:rgba(124,92,255,.25);color:#c9b8ff">🎭 الدور</span><span>أنت كاتب إعلانات محترف للمنتجات الفاخرة</span></div>
-      <div class="row"><span class="tag" style="background:rgba(56,225,255,.18);color:#8eeeff">🎯 الهدف</span><span>إعلان قصير يزيد مبيعات متجر عطور</span></div>
-      <div class="row"><span class="tag" style="background:rgba(255,92,168,.2);color:#ffa3cd">👥 الجمهور</span><span>نساء من ٢٥ إلى ٤٠ عاماً في الخليج</span></div>
+      <div class="row"><span class="tag" style="background:rgba(124,92,255,.28);color:#d0c2ff">🎭 الدور</span><span>كاتب إعلانات محترف</span></div>
+      <div class="row"><span class="tag" style="background:rgba(56,225,255,.2);color:#8eeeff">🎯 الهدف</span><span>زيادة مبيعات متجر عطور</span></div>
+      <div class="row"><span class="tag" style="background:rgba(255,92,168,.22);color:#ffa3cd">👥 الجمهور</span><span>نساء ٢٥–٤٠ في الخليج</span></div>
       <div class="row"><span class="tag" style="background:rgba(255,200,87,.2);color:#ffe29a">🗣️ الأسلوب</span><span>فاخر، دافئ، ومقنع</span></div>
-      <div class="row"><span class="tag" style="background:rgba(62,230,160,.18);color:#8ff5c8">📋 الصيغة</span><span>٣ نسخ + عنوان جذاب + دعوة لاتخاذ إجراء</span></div>
+      <div class="row" style="border:0"><span class="tag" style="background:rgba(62,230,160,.2);color:#8ff5c8">📋 الصيغة</span><span>٣ نسخ + عنوان + دعوة</span></div>
+      <div class="meterrow"><span class="label" style="margin:0;white-space:nowrap">جودة البرومبت</span><div class="track"><div class="fill" id="s4fill"></div></div><span class="num latin" id="s4num">32%</span></div>
     </div>
   </section>
 
-  <!-- ============ S5 : Templates ============ -->
+  <!-- S5 templates -->
   <section class="scene" id="s5">
-    <div class="el chip" id="s5chip" style="left:960px;top:110px">📚 الميزة الثانية</div>
-    <div class="el h2" id="s5h" style="left:960px;top:200px">مكتبة قوالب جاهزة لكل مجال</div>
-    <div class="el sub" id="s5s" style="left:960px;top:275px">اختر القالب… واترك الباقي على المارد</div>
+    <div class="el chip" id="s5chip" style="left:540px;top:260px">📚 الميزة الثانية</div>
+    <div class="el h2 kw" id="s5h" style="left:540px;top:360px">قوالب جاهزة لكل مجال</div>
     <div id="s5grid"></div>
   </section>
 
-  <!-- ============ S6 : Models ============ -->
+  <!-- S6 models -->
   <section class="scene" id="s6">
-    <div class="el chip" id="s6chip" style="left:960px;top:100px">🔗 الميزة الثالثة</div>
-    <div class="el h2" id="s6h" style="left:960px;top:185px">يعمل مع أدواتك المفضلة</div>
-    <svg id="links" viewBox="0 0 1920 1080"></svg>
-    <div class="el orb" id="s6orb" style="left:960px;top:620px">
-      <svg width="130" height="130" viewBox="0 0 100 100"><path d="M50 4 C54 36 64 46 96 50 C64 54 54 64 50 96 C46 64 36 54 4 50 C36 46 46 36 50 4Z" fill="#ffe29a"/></svg>
-    </div>
+    <div class="el chip" id="s6chip" style="left:540px;top:260px">🔗 الميزة الثالثة</div>
+    <div class="el h2 kw" id="s6h" style="left:540px;top:360px">يعمل مع أدواتك المفضلة</div>
+    <svg id="links" viewBox="0 0 1080 1920"></svg>
+    <div class="el orb" id="s6orb" style="left:540px;top:920px"><svg width="150" height="150" fill="#ffe29a"><use href="#star4"/></svg></div>
     <div id="s6models"></div>
   </section>
 
-  <!-- ============ S7 : Save & organize ============ -->
+  <!-- S7 save -->
   <section class="scene" id="s7">
-    <div class="el chip" id="s7chip" style="left:960px;top:100px">⭐ الميزة الرابعة</div>
-    <div class="el h2" id="s7h" style="left:960px;top:185px">احفظ، نظّم، وانسخ بنقرة واحدة</div>
-    <div class="el card side" id="s7side" style="left:1500px;top:600px">
-      <div class="label">مجلداتي</div>
-      <div class="folder on">📁 تسويق <em class="latin">12</em></div>
-      <div class="folder">📁 دراسة <em class="latin">8</em></div>
-      <div class="folder">📁 عمل <em class="latin">15</em></div>
-      <div class="folder">📁 صور <em class="latin">6</em></div>
+    <div class="el chip" id="s7chip" style="left:540px;top:260px">⭐ الميزة الرابعة</div>
+    <div class="el h2 kw" id="s7h" style="left:540px;top:360px">احفظ، نظّم، وانسخ</div>
+    <div class="el tabs" id="s7tabs" style="left:540px;top:520px">
+      <span class="tab" id="s7tab1">📁 تسويق</span><span class="tab">📁 دراسة</span><span class="tab">📁 عمل</span><span class="tab">📁 صور</span>
     </div>
-    <div class="el card saved" id="s7c1" style="left:790px;top:420px"><span class="star">★</span><div class="t"><b>إعلان عطور فاخر</b><span>تسويق · إنستغرام</span></div><span class="copybtn" id="s7btn">نسخ</span></div>
-    <div class="el card saved" id="s7c2" style="left:790px;top:600px"><span class="star">★</span><div class="t"><b>خطة محتوى شهرية</b><span>تسويق · تيك توك</span></div><span class="copybtn">نسخ</span></div>
-    <div class="el card saved" id="s7c3" style="left:790px;top:780px"><span class="star">★</span><div class="t"><b>وصف منتج لمتجر إلكتروني</b><span>تسويق · متجر</span></div><span class="copybtn">نسخ</span></div>
-    <div class="el toast" id="s7toast" style="left:790px;top:950px">✓ تم نسخ البرومبت</div>
+    <div class="el card saved" id="s7c1" style="left:540px;top:720px"><span class="star">★</span><div class="t"><b>إعلان عطور فاخر</b><span>تسويق · إنستغرام</span></div><span class="copybtn" id="s7btn">نسخ</span></div>
+    <div class="el card saved" id="s7c2" style="left:540px;top:930px"><span class="star">★</span><div class="t"><b>خطة محتوى شهرية</b><span>تسويق · تيك توك</span></div><span class="copybtn">نسخ</span></div>
+    <div class="el card saved" id="s7c3" style="left:540px;top:1140px"><span class="star">★</span><div class="t"><b>وصف منتج لمتجر</b><span>تسويق · متجر إلكتروني</span></div><span class="copybtn">نسخ</span></div>
+    <div class="el toast" id="s7toast" style="left:540px;top:1360px">✓ تم نسخ البرومبت</div>
   </section>
 
-  <!-- ============ S8 : How it works ============ -->
+  <!-- S8 steps -->
   <section class="scene" id="s8">
-    <div class="el h2" id="s8h" style="left:960px;top:170px">كيف يعمل؟ <span class="grad">٣ خطوات فقط</span></div>
-    <div class="el line" id="s8line" style="left:960px;top:540px;width:1040px"></div>
-    <div class="el step" id="s8a" style="left:1480px;top:540px">١</div>
-    <div class="el step" id="s8b" style="left:960px;top:540px">٢</div>
-    <div class="el step" id="s8c" style="left:440px;top:540px">٣</div>
-    <div class="el steplabel" id="s8la" style="left:1480px;top:770px"><b>اكتب فكرتك</b><span>بكلماتك البسيطة</span></div>
-    <div class="el steplabel" id="s8lb" style="left:960px;top:770px"><b>اختر الهدف والأداة</b><span>تسويق، كتابة، صور…</span></div>
-    <div class="el steplabel" id="s8lc" style="left:440px;top:770px"><b>انسخ واستخدم</b><span>برومبت احترافي جاهز</span></div>
+    <div class="el h2" id="s8h" style="left:540px;top:330px"><span class="kw">كيف يعمل؟</span></div>
+    <div class="el h2 kw" id="s8h2" style="left:540px;top:440px"><span class="grad">٣ خطوات فقط</span></div>
+    <div class="el vline" id="s8line" style="left:820px;top:1010px;height:640px"></div>
+    <div class="el step" id="s8a" style="left:820px;top:690px">١</div>
+    <div class="el step" id="s8b" style="left:820px;top:1010px">٢</div>
+    <div class="el step" id="s8c" style="left:820px;top:1330px">٣</div>
+    <div class="el steplabel" id="s8la" style="left:440px;top:690px"><b>اكتب فكرتك</b><span>بكلماتك البسيطة</span></div>
+    <div class="el steplabel" id="s8lb" style="left:440px;top:1010px"><b>اختر الهدف</b><span>تسويق، كتابة، صور…</span></div>
+    <div class="el steplabel" id="s8lc" style="left:440px;top:1330px"><b>انسخ واستخدم</b><span>برومبت احترافي جاهز</span></div>
   </section>
 
-  <!-- ============ S9 : Benefits ============ -->
+  <!-- S9 benefits -->
   <section class="scene" id="s9">
-    <div class="el h2" id="s9h" style="left:960px;top:170px">لماذا <span class="latin grad">PromptGenie</span>؟</div>
-    <div class="el card benefit" id="s9a" style="left:1450px;top:590px"><div class="ic">⏱️</div><b>وقت أقل</b><span>بلا تجارب ومحاولات متكررة</span></div>
-    <div class="el card benefit" id="s9b" style="left:960px;top:590px"><div class="ic">🎯</div><b>نتائج أدق</b><span>أوامر واضحة = إجابات أفضل</span></div>
-    <div class="el card benefit" id="s9c" style="left:470px;top:590px"><div class="ic">🚀</div><b>بدون خبرة</b><span>سهل للجميع من أول مرة</span></div>
+    <div class="el h2" id="s9h" style="left:540px;top:340px">لماذا <span class="latin grad">PromptGenie</span>؟</div>
+    <div class="el card benefit" id="s9a" style="left:540px;top:620px"><span class="ic">⏱️</span><div><b>وقت أقل</b><span>بلا تجارب ومحاولات متكررة</span></div></div>
+    <div class="el card benefit" id="s9b" style="left:540px;top:920px"><span class="ic">🎯</span><div><b>نتائج أدق</b><span>أوامر واضحة = إجابات أفضل</span></div></div>
+    <div class="el card benefit" id="s9c" style="left:540px;top:1220px"><span class="ic">🚀</span><div><b>بدون خبرة</b><span>سهل للجميع من أول مرة</span></div></div>
   </section>
 
-  <!-- ============ S10 : CTA ============ -->
+  <!-- S10 CTA -->
   <section class="scene" id="s10">
-    <div class="el glow" id="s10glow" style="left:960px;top:330px;width:560px;height:560px"></div>
-    <svg class="el" id="s10lamp" style="left:960px;top:330px" width="300" height="200" viewBox="0 0 300 200"></svg>
-    <div class="el h1" id="s10h" style="left:960px;top:560px;font-size:96px">جرّبه <span class="grad">الآن</span></div>
-    <div class="el url latin" id="s10url" style="left:960px;top:710px">ai-promptgenie.com</div>
-    <div class="el sub" id="s10t" style="left:960px;top:850px">دع المارد يكتب لك البرومبت المثالي ✨</div>
+    <div class="el glow" id="s10glow" style="left:540px;top:640px;width:760px;height:760px"></div>
+    <svg class="el" id="s10lamp" style="left:540px;top:680px" width="440" height="293"><use href="#lamp"/></svg>
+    <div id="s10sparks"></div>
+    <div class="el h1" id="s10h" style="left:540px;top:1000px;font-size:130px"><span class="kw">جرّبه</span> <span class="grad kw">الآن</span></div>
+    <div class="el url latin" id="s10url" style="left:540px;top:1180px">ai-promptgenie.com</div>
+    <div class="el tap" id="s10tap" style="left:540px;top:1330px">👆 دع المارد يكتب لك البرومبت المثالي</div>
   </section>
 
+  <div id="capbg"></div>
+  <div id="cap"></div>
+  <div class="el" id="ripple" style="left:0;top:0"></div>
   <svg class="el" id="cursor" viewBox="0 0 24 24" style="left:0;top:0;opacity:0"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#fff" stroke="#1a0b2e" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  <div id="sweep"></div>
+  <div id="flash"></div>
 </div></div>
-<div id="hint">اضغط المسافة للإيقاف/التشغيل · اضغط على الشريط للتنقل</div>
+<div id="hint">المسافة = إيقاف/تشغيل · اضغط على الشريط للتنقل · M = الصوت</div>
 <div id="ui"><div></div></div>
 
 <script>
-/* ---------- tiny deterministic timeline engine ---------- */
+/* ======================= engine ======================= */
 const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, k) => a + (b - a) * k;
 const E = {
   lin: t => t,
   out: t => 1 - Math.pow(1 - t, 3),
+  out5: t => 1 - Math.pow(1 - t, 5),
   inOut: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
   back: t => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+  elastic: t => t <= 0 ? 0 : t >= 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - .75) * (2 * Math.PI / 3)) + 1,
 };
 const p = (t, s, d, e = E.out) => e(clamp((t - s) / d));
 
-function set(el, { x = 0, y = 0, s = 1, r = 0, o = 1, blur = 0 } = {}) {
+function set(el, { x = 0, y = 0, s = 1, sx = 1, sy = 1, r = 0, o = 1, blur = 0 } = {}) {
   const base = el.classList.contains('el') ? 'translate(-50%,-50%) ' : '';
-  el.style.transform = `${base}translate(${x}px,${y}px) scale(${s}) rotate(${r}deg)`;
+  el.style.transform = `${base}translate(${x}px,${y}px) scale(${s * sx},${s * sy}) rotate(${r}deg)`;
   el.style.opacity = o;
   el.style.filter = blur > .05 ? `blur(${blur}px)` : '';
 }
-// pop-in helper: fades, rises and springs an element in at time `at`
-function pop(el, t, at, { d = .7, dy = 50, dx = 0, s0 = .85, x = 0, y = 0, extraS = 1 } = {}) {
-  const k = p(t, at, d * .8, E.out), kb = p(t, at, d, E.back);
-  set(el, { x: x + (1 - kb) * dx, y: y + (1 - kb) * dy, s: lerp(s0, 1, kb) * extraS, o: k, blur: (1 - k) * 10 });
+const add = (el, tf) => { el.style.transform += ' ' + tf; };
+function pop(el, t, at, { d = .7, dy = 60, dx = 0, s0 = .8, r0 = 0, x = 0, y = 0, ease = E.back } = {}) {
+  const k = p(t, at, d * .75, E.out), kb = p(t, at, d, ease);
+  set(el, { x: x + (1 - kb) * dx, y: y + (1 - kb) * dy, s: lerp(s0, 1, kb), r: (1 - kb) * r0, o: k, blur: (1 - k) * 12 });
 }
-function type(el, full, t, at, d) {
-  el.textContent = full.slice(0, Math.round(full.length * clamp((t - at) / d)));
+function type(el, full, t, at, d) { el.textContent = full.slice(0, Math.round(full.length * clamp((t - at) / d))); }
+
+// split .kw elements into per-word spans for kinetic typography
+function splitWords(root) {
+  const walk = n => {
+    for (const c of [...n.childNodes]) {
+      if (c.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        const inGrad = n.classList && n.classList.contains('grad');
+        c.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          const s = document.createElement('span'); s.className = 'w' + (inGrad ? ' grad' : ''); s.textContent = part; frag.appendChild(s);
+        });
+        if (inGrad) n.classList.remove('grad');
+        n.replaceChild(frag, c);
+      } else if (c.nodeType === 1) walk(c);
+    }
+  };
+  walk(root);
+}
+$$('.kw').forEach(splitWords);
+function words(el, t, at, { st = .09, d = .6, dy = 50, s0 = .6 } = {}) {
+  el.style.opacity = 1; el.style.filter = '';
+  if (el.classList.contains('el')) el.style.transform = 'translate(-50%,-50%)';
+  el.querySelectorAll('.w').forEach((w, i) => pop(w, t, at + i * st, { d, dy, s0 }));
 }
 
-/* ---------- background particles ---------- */
-let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-const parts = [];
-for (let i = 0; i < 60; i++) {
-  const d = document.createElement('i');
-  const size = 2 + rnd() * 5;
-  d.style.width = d.style.height = size + 'px';
-  $('#particles').appendChild(d);
-  parts.push({ d, x: rnd() * 1920, y: rnd() * 1080, v: 10 + rnd() * 30, ph: rnd() * 6.28, o: .15 + rnd() * .45 });
-}
-function particles(t) {
-  for (const q of parts) {
-    const y = ((q.y - q.v * t) % 1100 + 1100) % 1100 - 10;
-    const x = q.x + Math.sin(t * .6 + q.ph) * 20;
-    q.d.style.transform = `translate(${x}px,${y}px)`;
-    q.d.style.opacity = q.o * (.6 + .4 * Math.sin(t * 2 + q.ph));
-  }
-}
-
-/* ---------- dynamic content ---------- */
-const templates = [
-  ['📣', 'تسويق'], ['✍️', 'كتابة محتوى'], ['💻', 'برمجة'], ['🎓', 'تعليم'],
-  ['🎨', 'توليد صور'], ['📊', 'أعمال'], ['🎬', 'فيديو'], ['🔍', 'تحسين SEO'],
+/* ======================= timeline ======================= */
+const TL = [
+  ['s1', 0, 5.8], ['s2', 5.8, 11.8], ['s3', 11.8, 20.1], ['s4', 20.1, 28.3], ['s5', 28.3, 35.9],
+  ['s6', 35.9, 43.4], ['s7', 43.4, 49.6], ['s8', 49.6, 54.6], ['s9', 54.6, 59.4], ['s10', 59.4, 65.9],
 ];
+const DURATION = 65.9;
+// voice-over captions: [start, duration, text] — mirrors audio/vo timings
+const VO = [
+  [0.5, 4.56, 'هل كتبت فكرة رائعة… لكن النتيجة جاءت عادية؟'],
+  [6.1, 5.25, 'المشكلة ليست في الذكاء الاصطناعي… بل في طريقة كتابة الأمر'],
+  [13.6, 6.0, 'مع AI PromptGenie حوّل أي فكرة إلى أمر احترافي في ثوانٍ'],
+  [20.5, 6.8, 'اكتب فكرتك ببساطة، ودع المارد يضيف الدور والهدف والجمهور والأسلوب'],
+  [28.6, 6.79, 'اختر من مكتبة قوالب جاهزة لكل مجال: تسويق، كتابة، برمجة، وتصميم'],
+  [36.2, 6.71, 'استخدمه مع ChatGPT، Claude، Gemini، Midjourney'],
+  [43.7, 5.19, 'احفظ أوامرك المفضلة، ونظّمها، وانسخها بنقرة واحدة'],
+  [49.9, 3.42, 'ثلاث خطوات فقط: اكتب… اختر… ثم انسخ'],
+  [54.9, 3.52, 'وقت أقل… نتائج أدق… وبدون أي خبرة'],
+  [59.8, 3.72, 'جرّبه الآن على ai-promptgenie.com'],
+];
+
+/* ======================= static content ======================= */
+let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const parts = [];
+for (let i = 0; i < 70; i++) {
+  const d = document.createElement('i'); const size = 2 + rnd() * 6;
+  d.style.width = d.style.height = size + 'px'; $('#particles').appendChild(d);
+  parts.push({ d, x: rnd() * 1080, y: rnd() * 1920, v: 14 + rnd() * 40, ph: rnd() * 6.28, o: .15 + rnd() * .5 });
+}
+TL.forEach(() => { const i = document.createElement('i'); i.appendChild(document.createElement('b')); $('#dots').appendChild(i); });
+
+const templates = [['📣', 'تسويق'], ['✍️', 'كتابة'], ['💻', 'برمجة'], ['🎨', 'تصميم'], ['🎓', 'تعليم'], ['📊', 'أعمال'], ['🎬', 'فيديو'], ['🔍', 'SEO']];
 templates.forEach(([ic, name], i) => {
-  const c = document.createElement('div');
-  c.className = 'el card tpl';
-  const col = i % 4, row = Math.floor(i / 4);
-  c.style.left = (960 + 510 - col * 340) + 'px';
-  c.style.top = (490 + row * 230) + 'px';
-  c.innerHTML = `<div class="ic">${ic}</div><div>${name.replace('SEO', '<span class="latin">SEO</span>')}</div>`;
+  const c = document.createElement('div'); c.className = 'el card tpl';
+  c.style.left = (i % 2 ? 300 : 780) + 'px'; c.style.top = (620 + Math.floor(i / 2) * 235) + 'px';
+  c.innerHTML = `<span class="ic">${ic}</span><span${name === 'SEO' ? ' class="latin"' : ''}>${name}</span>`;
   $('#s5grid').appendChild(c);
 });
-const models = [
-  ['ChatGPT', '#3ee6a0'], ['Claude', '#ff9e6b'], ['Gemini', '#38e1ff'],
-  ['Midjourney', '#f5f2ff'], ['Copilot', '#a78bff'], ['Perplexity', '#ff5ca8'],
-];
+const models = [['ChatGPT', '#3ee6a0', 3.1], ['Claude', '#ff9e6b', 4.2], ['Gemini', '#38e1ff', 5.1], ['Midjourney', '#f5f2ff', 6.0], ['Copilot', '#a78bff', 6.6], ['Perplexity', '#ff5ca8', 6.8]];
 models.forEach(([n, c]) => {
-  const m = document.createElement('div');
-  m.className = 'el card model latin';
-  m.style.left = '960px'; m.style.top = '620px';
-  m.innerHTML = `<span class="dot" style="background:${c};box-shadow:0 0 16px ${c}"></span>${n}`;
+  const m = document.createElement('div'); m.className = 'el card model latin';
+  m.style.left = '540px'; m.style.top = '920px';
+  m.innerHTML = `<span class="dot" style="background:${c};box-shadow:0 0 18px ${c}"></span>${n}`;
   $('#s6models').appendChild(m);
   const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-  l.setAttribute('stroke', c); l.setAttribute('stroke-width', '3'); l.setAttribute('stroke-dasharray', '8 10');
+  l.setAttribute('stroke', c); l.setAttribute('stroke-width', '4'); l.setAttribute('stroke-dasharray', '10 12');
   $('#links').appendChild(l);
 });
-const sparks = [];
-for (let i = 0; i < 14; i++) {
-  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  s.setAttribute('viewBox', '0 0 100 100'); s.setAttribute('class', 'el spark');
-  s.innerHTML = `<path d="M50 4 C54 36 64 46 96 50 C64 54 54 64 50 96 C46 64 36 54 4 50 C36 46 46 36 50 4Z" fill="${i % 3 ? '#ffe29a' : '#ff9ccc'}"/>`;
-  s.style.left = '1150px'; s.style.top = '330px';
-  $('#s3sparks').appendChild(s);
-  sparks.push({ s, a: rnd() * Math.PI * 2, dist: 180 + rnd() * 320, sc: .6 + rnd() * 1.4, delay: rnd() * .5 });
+function makeSparks(host, cx, cy, n) {
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('class', 'el spark'); s.setAttribute('fill', i % 3 ? '#ffe29a' : '#ff9ccc');
+    s.innerHTML = '<use href="#star4"/>'; s.style.left = cx + 'px'; s.style.top = cy + 'px';
+    host.appendChild(s);
+    arr.push({ s, a: rnd() * Math.PI * 2, dist: 200 + rnd() * 380, sc: .6 + rnd() * 1.6, delay: rnd() * .35 });
+  }
+  return arr;
 }
-$('#s10lamp').innerHTML = $('#s3lamp').innerHTML;
-const smoke = $('#smokepath'); const smokeLen = smoke.getTotalLength();
-smoke.style.strokeDasharray = smokeLen;
+const sparks3 = makeSparks($('#s3sparks'), 540, 760, 22);
+const sparks10 = makeSparks($('#s10sparks'), 540, 640, 16);
+function burst(arr, t, at) {
+  arr.forEach(q => {
+    const k = p(t - q.delay, at, 1.4, E.out5);
+    set(q.s, { x: Math.cos(q.a) * q.dist * k, y: Math.sin(q.a) * q.dist * k, s: q.sc * (1 - k * .5), r: k * 200, o: t - q.delay > at ? 1 - p(t - q.delay, at + .6, .9) : 0 });
+  });
+}
+const smoke = $('#smokepath'); const smokeLen = smoke.getTotalLength(); smoke.style.strokeDasharray = smokeLen;
 
-/* ---------- scenes ---------- */
+/* ======================= scenes ======================= */
 const S = {
   s1(t) {
-    set($('#s1chat'), { s: lerp(.92, 1, p(t, 0, 1)), o: p(t, 0, .6), y: (1 - p(t, 0, 1)) * 40 });
-    type($('#s1type'), 'اكتب لي إعلاناً لمنتجي', t, .7, 1.4);
-    $('#s1caret').style.opacity = (t < 2.4 && Math.floor(t * 3) % 2 === 0) ? 1 : 0;
-    const ai = $('#s1ai'); pop(ai, t, 2.4, { dy: 20 });
+    const chat = $('#s1chat');
+    pop(chat, t, 0, { dy: 120, s0: .9 });
+    // shake when the bad answer lands
+    const sh = p(t, 3.55, .5, E.lin); if (sh > 0 && sh < 1) add(chat, `translate(${Math.sin(sh * 40) * 14 * (1 - sh)}px,0)`);
+    type($('#s1type'), 'اكتب لي إعلاناً لمنتجي', t, .35, 1.2);
+    $('#s1caret').style.opacity = (t < 1.7 && Math.floor(t * 3) % 2 === 0) ? 1 : 0;
+    const th = $('#s1think'); th.style.opacity = t > 1.7 && t < 2.4 ? 1 : 0;
+    [...th.children].forEach((d, i) => d.style.transform = `translateY(${Math.sin(t * 12 - i) * 8}px)`);
+    const ai = $('#s1ai'); pop(ai, t, 2.4, { dy: 30, s0: .95 });
     [...ai.children].forEach((sk, i) => sk.style.opacity = .35 + .5 * Math.abs(Math.sin(t * 3 + i)));
-    pop($('#s1stamp'), t, 3.4, { dy: 0, s0: 2.2, extraS: 1, y: 0 });
-    $('#s1stamp').style.transform += ` rotate(${-8}deg)`;
-    pop($('#s1cap'), t, 3.9, { dy: -30 });
+    pop($('#s1stamp'), t, 3.5, { dy: 0, s0: 2.6, r0: 25, d: .5, ease: E.out5 }); add($('#s1stamp'), 'rotate(-8deg)');
+    words($('#s1a'), t, .6);
+    words($('#s1b'), t, 2.7, { st: .12 });
   },
   s2(t) {
-    pop($('#s2a'), t, .1);
-    $('#s2strike').style.setProperty('--k', p(t, 1.1, .5));
-    pop($('#s2b'), t, 1.6);
-    $('#s2under').style.setProperty('--k', p(t, 2.3, .6));
-    pop($('#s2c'), t, 2.7, { dy: 30 });
+    words($('#s2a'), t, .2, { st: .14 });
+    words($('#s2strike'), t, 1.4, { st: .2 }); set($('#s2b'), {});
+    $('#s2strike').style.setProperty('--k', p(t, 2.7, .35));
+    const shake = p(t, 2.7, .4, E.lin); add($('#s2b'), `translate(${Math.sin(shake * 30) * 10 * (1 - shake) * (shake > 0)}px,0)`);
+    $('#s2b').style.opacity = lerp(1, .45, p(t, 3, .4));
+    words($('#s2c'), t, 3.0, { st: .15 });
+    pop($('#s2d'), t, 3.6, { dy: 80, s0: .6 });
+    $('#s2under').style.setProperty('--k', p(t, 4.5, .5));
+    pop($('#s2chip'), t, 4.9, { dy: 40 });
+    add($('#s2chip'), `translateY(${Math.sin(t * 2.5) * 8}px)`);
   },
   s3(t) {
-    const kg = p(t, .6, 1.2);
-    set($('#s3glow'), { s: lerp(.3, 1, kg) * (1 + .04 * Math.sin(t * 3)), o: kg * .9 });
-    pop($('#s3lamp'), t, .1, { dy: 80, s0: .6 });
+    const kg = p(t, .5, 1.2);
+    set($('#s3glow'), { s: lerp(.2, 1, kg) * (1 + .05 * Math.sin(t * 3)), o: kg * .95 });
     const lamp = $('#s3lamp');
-    lamp.style.transform += ` rotate(${Math.sin(clamp(t - .9, 0, 1.2) * 14) * 6 * (1 - p(t, .9, 1.2))}deg)`;
-    smoke.style.strokeDashoffset = smokeLen * (1 - p(t, 1.0, 1.4, E.inOut));
-    set($('#s3smoke'), { o: p(t, 1, .3) * (1 - p(t, 2.6, .6)) });
-    sparks.forEach(q => {
-      const k = p(t, 2.3 + q.delay, 1.3);
-      set(q.s, { x: Math.cos(q.a) * q.dist * k - 190 * k, y: Math.sin(q.a) * q.dist * k * .7, s: q.sc * (1 - k * .6), r: k * 180, o: k > 0 ? 1 - p(t, 2.9 + q.delay, 1) : 0 });
-    });
-    pop($('#s3word'), t, 2.5, { dy: 60, s0: .7 });
-    pop($('#s3tag'), t, 3.3, { dy: 30 });
+    pop(lamp, t, 0, { dy: 160, s0: .5 });
+    const rub = p(t, .6, .9, E.lin); add(lamp, `rotate(${Math.sin(rub * 22) * 7 * (1 - rub) * (rub > 0)}deg)`);
+    add(lamp, `translateY(${Math.sin(t * 2) * 8}px)`);
+    smoke.style.strokeDashoffset = smokeLen * (1 - p(t, .9, 1.2, E.inOut));
+    set($('#s3smoke'), { o: p(t, .9, .2) * (1 - p(t, 2.0, .5)), s: lerp(.9, 1.1, p(t, .9, 1.6)) });
+    const kr = p(t, 1.35, 1.1, E.out5);
+    set($('#s3ring'), { s: lerp(.2, 3.6, kr), o: (t > 1.35) * (1 - kr) });
+    burst(sparks3, t, 1.35);
+    pop($('#s3ai'), t, 1.8, { dy: 0, s0: 2.2, d: .6, ease: E.out5 });
+    const ww = $('#s3word'); pop(ww, t, 2.05, { dy: 0, s0: .4, d: .9 });
+    ww.style.letterSpacing = lerp(30, -3, p(t, 2.05, 1.2)) + 'px';
+    words($('#s3tag1'), t, 3.9, { st: .1 });
+    words($('#s3tag2'), t, 5.2, { st: .12 });
   },
   s4(t) {
-    pop($('#s4chip'), t, .1, { dy: -20 }); pop($('#s4h'), t, .3);
-    pop($('#s4in'), t, .7, { dx: 80, dy: 0 });
-    type($('#s4type'), 'اكتب لي إعلاناً لمنتجي', t, 1.2, 1.2);
-    pop($('#s4meter'), t, 1.2, { dy: 40 });
-    const kw = p(t, 2.6, .8, E.back);
-    set($('#s4wand'), { s: kw * (1 + .12 * Math.sin(t * 6)), r: t * 120, o: p(t, 2.6, .3) });
-    pop($('#s4out'), t, 3.0, { dx: -80, dy: 0, s0: .9 });
-    [...$('#s4out').querySelectorAll('.row')].forEach((r, i) => pop(r, t, 3.4 + i * .45, { dx: 40, dy: 0, s0: 1 }));
-    const q = lerp(32, 96, p(t, 3.4, 2.4, E.inOut));
+    pop($('#s4chip'), t, .05, { dy: -30 }); words($('#s4h'), t, .2);
+    pop($('#s4in'), t, .4, { dy: 80, s0: .9 });
+    type($('#s4type'), 'اكتب لي إعلاناً لمنتجي', t, .7, 1.2);
+    $('#s4caret').style.opacity = (t < 2.1 && Math.floor(t * 3) % 2 === 0) ? 1 : 0;
+    const kb = p(t, 2.0, .5, E.out);
+    set($('#s4beam'), { o: kb * (1 - p(t, 2.9, .4)) }); add($('#s4beam'), `scaleY(${kb})`);
+    const kw = p(t, 2.1, .7, E.back);
+    set($('#s4wand'), { s: kw * (1 + .15 * Math.sin(t * 7)), r: t * 140, o: p(t, 2.1, .2) });
+    pop($('#s4out'), t, 2.5, { dy: 120, s0: .85 });
+    const rows = $$('#s4out .row');
+    [3.7, 4.4, 5.2, 6.0, 6.7].forEach((at, i) => pop(rows[i], t, at, { dx: 90, dy: 0, s0: 1 }));
+    const q = lerp(32, 96, p(t, 3.7, 3.6, E.inOut));
     $('#s4num').textContent = Math.round(q) + '%';
     $('#s4num').style.color = q < 60 ? '#ff8a8a' : q < 85 ? '#ffe29a' : '#3ee6a0';
     $('#s4fill').style.transform = `scaleX(${q / 100})`;
+    // subtle camera push
+    $('#s4').style.transform += ` scale(${lerp(1, 1.035, p(t, 0, 8, E.lin))})`;
   },
   s5(t) {
-    pop($('#s5chip'), t, .1, { dy: -20 }); pop($('#s5h'), t, .3); pop($('#s5s'), t, .6, { dy: 20 });
-    const cards = [...$('#s5grid').children];
+    pop($('#s5chip'), t, .05, { dy: -30 }); words($('#s5h'), t, .2);
+    const cards = $$('#s5grid .tpl');
+    const hl = [3.6, 4.4, 5.3, 6.2]; // spoken: تسويق، كتابة، برمجة، تصميم
     cards.forEach((c, i) => {
-      pop(c, t, 1 + i * .12, { dy: 70, s0: .6 });
-      const hl = i === 0 ? p(t, 3.4, .4) * (1 - p(t, 4.9, .4)) : 0;
-      c.style.transform += ` scale(${1 + hl * .1})`;
-      c.style.borderColor = hl ? `rgba(255,200,87,${hl})` : '';
-      c.style.boxShadow = hl ? `0 0 ${60 * hl}px rgba(255,200,87,${.5 * hl})` : '';
+      pop(c, t, .8 + i * .1, { dy: 110, s0: .5 });
+      const h = i < 4 ? p(t, hl[i], .35, E.back) * (1 - p(t, hl[i] + .75, .4)) : 0;
+      if (h > .001) add(c, `scale(${1 + h * .1})`);
+      c.style.borderColor = h > .01 ? `rgba(255,200,87,${h})` : '';
+      c.style.boxShadow = h > .01 ? `0 0 ${70 * h}px rgba(255,200,87,${.55 * h})` : '';
+      c.style.background = h > .01 ? `rgba(255,200,87,${.12 * h})` : '';
     });
-    cursorPath(t, [[2.6, 1300, 900, 0], [3.3, 1530, 560, 1], [5.0, 1530, 560, 1], [5.6, 1530, 560, 0]], 3.35);
+    cursorPath(t, [[2.8, 900, 1500, 0], [3.5, 820, 650, 1], [4.3, 330, 650, 1], [5.2, 820, 885, 1], [6.1, 330, 885, 1], [6.8, 330, 885, 0]], [3.55, 4.35, 5.25, 6.15]);
   },
   s6(t) {
-    pop($('#s6chip'), t, .1, { dy: -20 }); pop($('#s6h'), t, .3);
-    pop($('#s6orb'), t, .6, { s0: .3, dy: 0 });
-    $('#s6orb').style.transform += ` scale(${1 + .04 * Math.sin(t * 3)})`;
+    pop($('#s6chip'), t, .05, { dy: -30 }); words($('#s6h'), t, .2);
+    pop($('#s6orb'), t, .5, { s0: .2, dy: 0 });
+    add($('#s6orb'), `scale(${1 + .05 * Math.sin(t * 3)})`);
     const lines = [...$('#links').children];
-    [...$('#s6models').children].forEach((m, i) => {
-      const k = p(t, 1.1 + i * .15, 1, E.back);
-      const a = -Math.PI / 2 + i * Math.PI * 2 / 6 + t * .18;
-      const x = Math.cos(a) * 560 * k, y = Math.sin(a) * 300 * k;
-      set(m, { x, y: y + 20, s: lerp(.4, 1, k), o: p(t, 1.1 + i * .15, .5) });
+    const pos = [[-1, -1], [1, -.4], [-1, .35], [1, 1], [-.1, 1.45], [.1, -1.45]];
+    $$('#s6models .model').forEach((m, i) => {
+      const at = models[i][2];
+      const k = p(t, at, .8, E.back);
+      const bob = Math.sin(t * 1.6 + i) * 12;
+      const px = pos[i][0] * 250 * k, py = pos[i][1] * 330 * k + bob;
+      set(m, { x: px, y: py, s: lerp(.3, 1, k), o: p(t, at, .35) });
       const l = lines[i];
-      l.setAttribute('x1', 960); l.setAttribute('y1', 620);
-      l.setAttribute('x2', 960 + x); l.setAttribute('y2', 640 + y);
-      l.setAttribute('opacity', p(t, 1.4 + i * .15, .5) * .6);
-      l.setAttribute('stroke-dashoffset', -t * 40);
+      l.setAttribute('x1', 540); l.setAttribute('y1', 920);
+      l.setAttribute('x2', 540 + px); l.setAttribute('y2', 920 + py);
+      l.setAttribute('opacity', p(t, at + .1, .4) * .7);
+      l.setAttribute('stroke-dashoffset', -t * 50);
     });
   },
   s7(t) {
-    pop($('#s7chip'), t, .1, { dy: -20 }); pop($('#s7h'), t, .3);
-    pop($('#s7side'), t, .7, { dx: 80, dy: 0 });
-    ['#s7c1', '#s7c2', '#s7c3'].forEach((id, i) => pop($(id), t, 1 + i * .2, { dx: -80, dy: 0 }));
-    const click = p(t, 2.9, .15) * (1 - p(t, 3.05, .2));
-    const btn = $('#s7btn');
-    btn.style.transform = `scale(${1 - click * .12})`;
-    btn.style.background = t > 2.95 ? 'var(--green)' : ''; btn.style.color = t > 2.95 ? '#062a1b' : '';
-    btn.textContent = t > 2.95 ? 'تم ✓' : 'نسخ';
-    pop($('#s7toast'), t, 3.1, { dy: 60 });
-    cursorPath(t, [[1.9, 1100, 950, 0], [2.8, 470, 425, 1], [4.2, 470, 425, 1], [4.6, 470, 425, 0]], 2.9);
+    pop($('#s7chip'), t, .05, { dy: -30 }); words($('#s7h'), t, .2);
+    pop($('#s7tabs'), t, .6, { dy: 40 });
+    ['#s7c1', '#s7c2', '#s7c3'].forEach((id, i) => {
+      pop($(id), t, .7 + i * .15, { dx: -140, dy: 0 });
+      const st = $(id + ' .star'); const k = p(t, 1.4 + i * .2, .5, E.back);
+      st.style.color = k > .5 ? 'var(--gold)' : ''; st.style.transform = `scale(${1 + .6 * Math.sin(Math.PI * clamp(k))}) rotate(${k * 72}deg)`;
+    });
+    const tab = $('#s7tab1'); const kt = p(t, 2.5, .3);
+    tab.style.background = kt ? `rgba(124,92,255,${.4 * kt})` : ''; tab.style.borderColor = kt ? 'rgba(167,139,255,.8)' : '';
+    tab.style.transform = `scale(${1 + .12 * Math.sin(Math.PI * kt)})`;
+    const click = p(t, 4.1, .12) * (1 - p(t, 4.22, .2));
+    const btn = $('#s7btn'); const done = t > 4.15;
+    btn.style.transform = `scale(${1 - click * .15})`;
+    btn.style.background = done ? 'var(--green)' : ''; btn.style.color = done ? '#062a1b' : '';
+    btn.textContent = done ? 'تم ✓' : 'نسخ';
+    pop($('#s7toast'), t, 4.3, { dy: 80 });
+    cursorPath(t, [[2.9, 800, 1500, 0], [4.0, 170, 725, 1], [5.4, 170, 725, 1], [5.8, 170, 725, 0]], [4.1]);
   },
   s8(t) {
-    pop($('#s8h'), t, .1);
-    set($('#s8line'), { o: p(t, .8, .3) }); $('#s8line').style.transform += ` scaleX(${p(t, .8, 3, E.inOut)})`;
-    [['#s8a', '#s8la', .6], ['#s8b', '#s8lb', 1.9], ['#s8c', '#s8lc', 3.2]].forEach(([a, b, at]) => {
-      pop($(a), t, at, { s0: .2, dy: 0 });
-      $(a).style.transform += ` scale(${1 + .05 * Math.sin((t - at) * 4) * p(t, at + .6, .3)})`;
-      pop($(b), t, at + .3, { dy: 30 });
+    words($('#s8h'), t, .1); words($('#s8h2'), t, .5);
+    set($('#s8line'), { o: p(t, 1.8, .2) }); add($('#s8line'), `scaleY(${p(t, 1.8, 1.6, E.inOut)})`);
+    [['#s8a', '#s8la', 1.8], ['#s8b', '#s8lb', 2.5], ['#s8c', '#s8lc', 3.2]].forEach(([a, b, at]) => {
+      pop($(a), t, at, { s0: .1, dy: 0, ease: E.elastic, d: 1.1 });
+      pop($(b), t, at + .12, { dx: 120, dy: 0 });
     });
   },
   s9(t) {
-    pop($('#s9h'), t, .1);
-    ['#s9a', '#s9b', '#s9c'].forEach((id, i) => {
-      pop($(id), t, .7 + i * .35, { dy: 90, s0: .7 });
-      $(id).style.transform += ` translateY(${Math.sin(t * 2 + i) * 8}px)`;
+    pop($('#s9h'), t, .05, { dy: -40 });
+    [['#s9a', .3], ['#s9b', 1.4], ['#s9c', 2.5]].forEach(([id, at], i) => {
+      pop($(id), t, at, { dx: i % 2 ? -200 : 200, dy: 0, s0: .9 });
+      add($(id), `translateY(${Math.sin(t * 2 + i) * 6}px)`);
+      const ic = $(id + ' .ic'); const k = p(t, at + .2, .7, E.elastic);
+      ic.style.transform = `scale(${k}) rotate(${(1 - k) * -40}deg)`;
     });
   },
   s10(t) {
-    const kg = p(t, .1, 1);
-    set($('#s10glow'), { s: lerp(.3, 1, kg) * (1 + .05 * Math.sin(t * 3)), o: kg * .8 });
-    pop($('#s10lamp'), t, .2, { dy: 60, s0: .5 });
-    $('#s10lamp').style.transform += ` translateY(${Math.sin(t * 2.2) * 10}px)`;
-    pop($('#s10h'), t, .7);
-    pop($('#s10url'), t, 1.2, { s0: .6, dy: 30 });
-    $('#s10url').style.transform += ` scale(${1 + .03 * Math.sin(t * 4) * p(t, 2, .5)})`;
-    pop($('#s10t'), t, 1.8, { dy: 30 });
+    const kg = p(t, 0, 1);
+    set($('#s10glow'), { s: lerp(.3, 1, kg) * (1 + .06 * Math.sin(t * 3)), o: kg * .85 });
+    pop($('#s10lamp'), t, .05, { dy: 100, s0: .5 }); add($('#s10lamp'), `translateY(${Math.sin(t * 2.2) * 12}px)`);
+    burst(sparks10, t, .5);
+    words($('#s10h'), t, .45, { st: .25, s0: .3 });
+    pop($('#s10url'), t, 1.7, { s0: .4, dy: 60 });
+    add($('#s10url'), `scale(${1 + .04 * Math.sin(t * 5) * p(t, 2.4, .5)})`);
+    pop($('#s10tap'), t, 2.6, { dy: 40 });
+    add($('#s10tap'), `translateY(${Math.sin(t * 4) * 8 * p(t, 3, .4)}px)`);
   },
 };
 
-// cursor: keyframes [time, x, y, opacity]; `clickAt` squeezes it
-const cursor = $('#cursor');
-function cursorPath(t, keys, clickAt) {
-  let k0 = keys[0], k1 = keys[0];
-  for (let i = 0; i < keys.length; i++) { if (t >= keys[i][0]) { k0 = keys[i]; k1 = keys[i + 1] || keys[i]; } }
-  if (t < keys[0][0]) { k0 = k1 = keys[0]; }
-  const k = k1 === k0 ? 1 : E.inOut(clamp((t - k0[0]) / (k1[0] - k0[0])));
-  const c = p(t, clickAt, .12) * (1 - p(t, clickAt + .12, .2));
-  cursor.style.transform = `translate(${lerp(k0[1], k1[1], k)}px,${lerp(k0[2], k1[2], k)}px) scale(${1 - c * .25})`;
-  cursor.style.opacity = lerp(k0[3], k1[3], k);
-  cursorUsed = true;
-}
+// cursor keyframes: [time, x, y, opacity]; clicks squeeze cursor + ripple
+const cursor = $('#cursor'), ripple = $('#ripple');
 let cursorUsed = false;
+function cursorPath(t, keys, clicks = []) {
+  cursorUsed = true;
+  let k0 = keys[0], k1 = keys[0];
+  for (let i = 0; i < keys.length; i++) if (t >= keys[i][0]) { k0 = keys[i]; k1 = keys[i + 1] || keys[i]; }
+  const k = k1 === k0 ? 1 : E.inOut(clamp((t - k0[0]) / (k1[0] - k0[0])));
+  const x = lerp(k0[1], k1[1], k), y = lerp(k0[2], k1[2], k);
+  let c = 0, rk = -1;
+  for (const at of clicks) { c = Math.max(c, p(t, at, .1) * (1 - p(t, at + .1, .2))); if (t >= at && t < at + .6) rk = (t - at) / .6; }
+  cursor.style.transform = `translate(${x}px,${y}px) scale(${1 - c * .25})`;
+  cursor.style.opacity = lerp(k0[3], k1[3], k);
+  ripple.style.transform = `translate(${x - 60}px,${y - 60}px) scale(${rk < 0 ? 0 : .3 + rk * 1.2})`;
+  ripple.style.opacity = rk < 0 ? 0 : .8 * (1 - rk);
+}
 
-const timeline = [
-  ['s1', 0, 6], ['s2', 6, 10.5], ['s3', 10.5, 16.5], ['s4', 16.5, 26], ['s5', 26, 32.5],
-  ['s6', 32.5, 38.5], ['s7', 38.5, 44], ['s8', 44, 50.5], ['s9', 50.5, 55.5], ['s10', 55.5, 62],
-];
-const DURATION = 62;
+/* ======================= global layers ======================= */
+function background(t) {
+  set($('#b1'), { x: 540 + Math.sin(t * .23) * 260 - 380, y: 300 + Math.cos(t * .19) * 200 - 380 });
+  set($('#b2'), { x: 200 + Math.cos(t * .17) * 240 - 320, y: 1500 + Math.sin(t * .21) * 220 - 320 });
+  set($('#b3'), { x: 850 + Math.sin(t * .29 + 1) * 180 - 260, y: 1000 + Math.cos(t * .25) * 300 - 260 });
+  $$('.blob').forEach(b => b.style.filter = 'blur(90px)');
+  for (const q of parts) {
+    const y = ((q.y - q.v * t) % 1940 + 1940) % 1940 - 10;
+    q.d.style.transform = `translate(${q.x + Math.sin(t * .6 + q.ph) * 24}px,${y}px)`;
+    q.d.style.opacity = q.o * (.6 + .4 * Math.sin(t * 2 + q.ph));
+  }
+}
+function captions(t) {
+  const cap = $('#cap'), bg = $('#capbg');
+  const line = VO.find(([s, d]) => t >= s - .15 && t < s + d + .35);
+  if (!line) { cap.style.opacity = bg.style.opacity = 0; return; }
+  const [s, d, text] = line;
+  if (cap.dataset.s != s) {
+    cap.dataset.s = s;
+    // Latin words are isolated LTR; keep trailing Arabic punctuation outside the isolate
+    cap.innerHTML = text.split(' ').map(w => {
+      const m = w.match(/^(.*?[A-Za-z].*?)([،:…]*)$/);
+      return m ? `<span class="cw"><span class="latin">${m[1]}</span>${m[2]}</span>` : `<span class="cw">${w}</span>`;
+    }).join(' ');
+  }
+  const ws = [...cap.children]; const total = ws.reduce((a, w) => a + w.textContent.length, 0);
+  let acc = 0; const prog = clamp((t - s) / d) * total;
+  ws.forEach(w => { const a = acc; acc += w.textContent.length; w.className = 'cw' + (prog >= a ? ' on' : '') + (prog >= a && prog < acc ? ' now' : ''); });
+  const o = p(t, s - .15, .2) * (1 - p(t, s + d + .15, .2));
+  cap.style.opacity = bg.style.opacity = o;
+  cap.style.transform = `translate(-50%,-50%) translateY(${(1 - o) * 20}px)`;
+}
+function transitions(t) {
+  // light sweep across every cut
+  let sw = -1;
+  for (const [, a] of TL) if (a > 0 && t > a - .35 && t < a + .35) sw = (t - (a - .35)) / .7;
+  const el = $('#sweep');
+  el.style.opacity = sw < 0 ? 0 : Math.sin(Math.PI * sw) * .9;
+  el.style.transform = `translateX(${lerp(1300, -600, sw < 0 ? 0 : E.inOut(sw))}px) rotate(12deg)`;
+  // flashes: logo reveal + CTA
+  const f = Math.max(p(t, 13.15, .08) * (1 - p(t, 13.23, .6)), p(t, 59.9, .08) * (1 - p(t, 59.98, .6)));
+  $('#flash').style.opacity = f;
+  // brand bar during feature scenes, progress dots
+  const bo = p(t, 20.1, .5) * (1 - p(t, 59.2, .4));
+  $('#brand').style.opacity = bo;
+  const dots = $$('#dots i b');
+  TL.forEach(([, a, b], i) => dots[i].style.transform = `scaleX(${clamp((t - a) / (b - a))})`);
+  $('#dots').style.opacity = 1 - p(t, 65, .8);
+}
 
 function seek(t) {
-  particles(t);
+  background(t);
   cursorUsed = false;
-  for (const [id, a, b] of timeline) {
+  for (const [id, a, b] of TL) {
     const el = document.getElementById(id);
-    if (t < a || t >= b) { el.style.display = 'none'; continue; }
+    if (t < a - .001 || t >= b) { el.style.display = 'none'; continue; }
     el.style.display = 'block';
     const lt = t - a;
-    const fin = a === 0 ? 1 : p(lt, 0, .45);
-    const fout = b === DURATION ? 1 - p(t, b - .8, .8) : 1 - p(t, b - .45, .45, E.inOut);
+    const fin = a === 0 ? 1 : p(lt, 0, .4);
+    const fout = b === DURATION ? 1 - p(t, b - .9, .9) : 1 - p(t, b - .35, .35, E.inOut);
     el.style.opacity = Math.min(fin, fout);
-    el.style.transform = `scale(${lerp(1.04, 1, fin) * lerp(.96, 1, fout)})`;
-    el.style.filter = fout < 1 ? `blur(${(1 - fout) * 8}px)` : '';
+    el.style.transform = `scale(${lerp(1.12, 1, fin) * lerp(.9, 1, fout)})`;
+    el.style.filter = (fin < 1 || fout < 1) ? `blur(${(1 - Math.min(fin, fout)) * 14}px)` : '';
     S[id](lt);
   }
-  if (!cursorUsed) cursor.style.opacity = 0;
+  if (!cursorUsed) { cursor.style.opacity = 0; ripple.style.opacity = 0; }
+  captions(t);
+  transitions(t);
 }
-window.seek = seek; window.DURATION = DURATION;
-// scenes start hidden, so explicitly load every weight used before playback/capture
+window.seek = seek; window.DURATION = DURATION; window.TL = TL; window.VO = VO;
 window.fontsReady = Promise.all([
   ...['400', '500', '700', '800', '900'].map(w => document.fonts.load(`${w} 40px Tajawal`, 'عربي')),
   ...['500', '700', '800'].map(w => document.fonts.load(`${w} 40px Inter`, 'Ai')),
 ]).catch(() => {});
 
-/* ---------- fit to window + playback ---------- */
+/* ======================= fit + playback ======================= */
 const stage = $('#stage');
-function fit() { stage.style.transform = `scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`; }
+function fit() { stage.style.transform = `scale(${Math.min(innerWidth / 1080, innerHeight / 1920)})`; }
 addEventListener('resize', fit); fit();
 
-const capture = new URLSearchParams(location.search).has('capture');
-if (capture) { document.body.classList.add('capture'); stage.style.transform = 'none'; seek(0); }
-else {
-  let t = 0, last = null, playing = true;
+if (new URLSearchParams(location.search).has('capture')) {
+  document.body.classList.add('capture'); stage.style.transform = 'none'; seek(0);
+} else {
+  // live preview plays the mixed soundtrack if present next to the page
+  const audio = new Audio('soundtrack.m4a'); let t = 0, last = null, playing = true;
   const bar = $('#ui div');
   function loop(now) {
-    if (last != null && playing) t = (t + (now - last) / 1000) % DURATION;
+    if (last != null && playing) t += (now - last) / 1000;
+    if (t >= DURATION) { t = 0; if (!audio.paused) audio.currentTime = 0; }
+    if (!audio.paused && Math.abs(audio.currentTime - t) > .15) t = audio.currentTime;
     last = now; seek(t); bar.style.width = (t / DURATION * 100) + '%';
     requestAnimationFrame(loop);
   }
   window.fontsReady.then(() => requestAnimationFrame(loop));
-  addEventListener('keydown', e => { if (e.code === 'Space') { playing = !playing; e.preventDefault(); } });
-  $('#ui').addEventListener('click', e => { t = (1 - e.clientX / innerWidth) * DURATION; });
-  stage.addEventListener('click', () => playing = !playing);
+  const toggle = () => { playing = !playing; if (!playing) audio.pause(); };
+  addEventListener('keydown', e => {
+    if (e.code === 'Space') { toggle(); e.preventDefault(); }
+    if (e.code === 'KeyM') { if (audio.paused) { audio.currentTime = t; audio.play().catch(() => {}); } else audio.pause(); }
+  });
+  $('#ui').addEventListener('click', e => { t = (1 - e.clientX / innerWidth) * DURATION; audio.currentTime = t; });
+  stage.addEventListener('click', () => { if (audio.paused) { audio.currentTime = t; audio.play().catch(() => {}); playing = true; } else toggle(); });
 }
 </script>
 </body>
