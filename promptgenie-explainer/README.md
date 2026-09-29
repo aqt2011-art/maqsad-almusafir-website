@@ -12,3 +12,11 @@ node render.mjs --frames=5,24,60          # صور ثابتة للمراجعة
 ```
 
 التوقيتات موجودة في `TL` و`VO` داخل `index.html` وفي `SCENES`/`VO_STARTS` داخل `build_audio.py` — عدّلهما معاً.
+
+## استبدال التعليق الصوتي بصوت آخر
+```bash
+python3 audio/import_vo.py <مجلد فيه 01.wav … 10.wav>   # معالجة الصوت (قصّ الصمت + سلسلة معلّق إعلاني)
+python3 audio/fit_vo.py                                  # إعادة ضبط المشاهد والترجمة والمؤثرات على مدد الصوت الجديد
+FFMPEG=/path/to/ffmpeg ./build.sh                        # الإخراج النهائي
+```
+نصوص الأسطر العشرة في `audio/tts_premium.py` (LINES) وتوليد Higgsfield كان بصوت seed_audio.

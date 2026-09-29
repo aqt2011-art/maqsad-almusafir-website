@@ -10,13 +10,13 @@ from scipy.signal import butter, sosfilt, fftconvolve
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SR = 48000
-DUR = 68.9 + 0.5
+DUR = 69.1 + 0.5
 N = int(DUR * SR)
 rng = np.random.default_rng(7)
 
-SCENES = [0, 5.8, 12.6, 22.2, 30.4, 38.2, 45.8, 52.2, 57.2, 61.9]
-VO_STARTS = [0.5, 6.1, 15.2, 22.6, 30.7, 38.5, 46.1, 52.5, 57.5, 62.3]
-LOGO_HIT, CTA_HIT = 13.95, 62.4
+SCENES = [0, 5.8, 12.68, 22.39, 30.59, 38.39, 46.0, 52.4, 57.4, 62.1]
+VO_STARTS = [0.5, 6.1, 15.28, 22.79, 30.89, 38.69, 46.3, 52.7, 57.7, 62.5]
+LOGO_HIT, CTA_HIT = 14.03, 62.6
 
 
 def t_(n):
