@@ -143,6 +143,10 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 .genie .eyes{transform-box:fill-box;transform-origin:center}
 #confetti i{position:absolute;left:0;top:0;width:16px;height:26px;border-radius:4px}
 .uring{border-radius:999px;border:4px solid rgba(255,200,87,.85);width:720px;height:120px}
+.rays{border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,226,154,.28) 0deg 6deg,transparent 6deg 18deg);-webkit-mask:radial-gradient(circle,#000 0%,rgba(0,0,0,.6) 35%,transparent 70%);mask:radial-gradient(circle,#000 0%,rgba(0,0,0,.6) 35%,transparent 70%)}
+#flare{position:absolute;left:50%;height:10px;width:1600px;margin-left:-800px;border-radius:5px;background:linear-gradient(90deg,transparent,rgba(120,200,255,.0) 10%,rgba(160,220,255,.9) 45%,#fff 50%,rgba(160,220,255,.9) 55%,transparent 90%);filter:blur(2px);opacity:0;z-index:41;pointer-events:none}
+#flare::after{content:"";position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,210,140,.4) 35%,transparent 70%)}
+#bokeh i{position:absolute;border-radius:50%;filter:blur(6px)}
 #ui{position:fixed;left:0;right:0;bottom:0;height:6px;background:rgba(255,255,255,.1);cursor:pointer}
 #ui div{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--pink))}
 #hint{position:fixed;top:10px;left:50%;transform:translateX(-50%);font:600 13px Tajawal,sans-serif;color:#b8b0e0;opacity:.7;white-space:nowrap}
@@ -174,6 +178,7 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
   <div class="blob" id="b1" style="width:760px;height:760px;background:#4b1fb0"></div>
   <div class="blob" id="b2" style="width:640px;height:640px;background:#8a1a6e"></div>
   <div class="blob" id="b3" style="width:520px;height:520px;background:#1a4fb0"></div>
+  <div id="bokeh"></div>
   <div id="particles"></div>
 
   <div id="dots"></div>
@@ -209,6 +214,7 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 
   <!-- S3 logo -->
   <section class="scene" id="s3">
+    <div class="el rays" id="s3rays" style="left:540px;top:700px;width:1500px;height:1500px"></div>
     <div class="el glow" id="s3glow" style="left:540px;top:680px;width:980px;height:980px"></div>
     <div class="el ring" id="s3ring" style="left:540px;top:900px;width:300px;height:300px"></div>
     <svg class="el" id="s3smoke" style="left:640px;top:680px" width="440" height="420" viewBox="0 0 420 360" fill="none">
@@ -296,6 +302,7 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
 
   <!-- S10 CTA -->
   <section class="scene" id="s10">
+    <div class="el rays" id="s10rays" style="left:540px;top:600px;width:1400px;height:1400px"></div>
     <div class="el glow" id="s10glow" style="left:540px;top:600px;width:860px;height:860px"></div>
     <svg class="el" id="s10lamp" style="left:480px;top:760px" width="440" height="293"><use href="#lamp"/></svg>
     <svg class="el genie" id="s10genie" style="left:640px;top:440px" width="300" height="440" viewBox="0 0 300 440"></svg>
@@ -313,6 +320,7 @@ html,body{margin:0;height:100%;background:#05030f;overflow:hidden}
   <svg class="el" id="cursor" viewBox="0 0 24 24" style="left:0;top:0;opacity:0"><path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.6 L12 13.8 L19 13.8 Z" fill="#fff" stroke="#1a0b2e" stroke-width="1.4" stroke-linejoin="round"/></svg>
   <div id="sweep"></div>
   <div id="flash"></div>
+  <div id="flare"></div>
 </div></div>
 <div id="hint">المسافة = إيقاف/تشغيل · اضغط على الشريط للتنقل · M = الصوت</div>
 <div id="ui"><div></div></div>
@@ -401,6 +409,14 @@ for (let i = 0; i < 70; i++) {
   const d = document.createElement('i'); const size = 2 + rnd() * 6;
   d.style.width = d.style.height = size + 'px'; $('#particles').appendChild(d);
   parts.push({ d, x: rnd() * 1080, y: rnd() * 1920, v: 14 + rnd() * 40, ph: rnd() * 6.28, o: .15 + rnd() * .5 });
+}
+const bokeh = [];
+for (let i = 0; i < 14; i++) {
+  const d = document.createElement('i'); const size = 60 + rnd() * 160;
+  d.style.width = d.style.height = size + 'px';
+  d.style.background = ['rgba(167,139,255,.18)', 'rgba(255,92,168,.14)', 'rgba(56,225,255,.12)', 'rgba(255,200,87,.14)'][i % 4];
+  $('#bokeh').appendChild(d);
+  bokeh.push({ d, x: rnd() * 1080, y: rnd() * 1920, v: 6 + rnd() * 14, ph: rnd() * 6.28, size });
 }
 TL.forEach(() => { const i = document.createElement('i'); i.appendChild(document.createElement('b')); $('#dots').appendChild(i); });
 
@@ -506,6 +522,7 @@ const S = {
   },
   s3(t) {
     const kg = p(t, .5, 1.2);
+    set($('#s3rays'), { s: lerp(.3, 1, p(t, 1.3, 1.5)), r: t * 12, o: p(t, 1.3, .6) * .9 });
     set($('#s3glow'), { s: lerp(.2, 1, kg) * (1 + .05 * Math.sin(t * 3)), o: kg * .95 });
     const lamp = $('#s3lamp');
     pop(lamp, t, 0, { dy: 160, s0: .5 });
@@ -619,6 +636,7 @@ const S = {
   },
   s10(t) {
     const kg = p(t, 0, 1);
+    set($('#s10rays'), { s: lerp(.3, 1, p(t, .4, 1.5)), r: -t * 10, o: p(t, .4, .6) * .85 });
     set($('#s10glow'), { s: lerp(.3, 1, kg) * (1 + .06 * Math.sin(t * 3)), o: kg * .85 });
     pop($('#s10lamp'), t, .05, { dy: 100, s0: .5 }); add($('#s10lamp'), `translateY(${Math.sin(t * 2.2) * 10}px)`);
     const g = $('#s10genie'); const kgn = p(t, .3, 1, E.back);
@@ -674,6 +692,11 @@ function background(t) {
   set($('#b2'), { x: 200 + Math.cos(t * .17) * 240 - 320, y: 1500 + Math.sin(t * .21) * 220 - 320 });
   set($('#b3'), { x: 850 + Math.sin(t * .29 + 1) * 180 - 260, y: 1000 + Math.cos(t * .25) * 300 - 260 });
   $$('.blob').forEach(b => b.style.filter = 'blur(90px)');
+  for (const q of bokeh) {
+    const y = ((q.y - q.v * t) % 2200 + 2200) % 2200 - 140;
+    q.d.style.transform = `translate(${q.x + Math.sin(t * .3 + q.ph) * 60 - q.size / 2}px,${y}px)`;
+    q.d.style.opacity = .7 + .3 * Math.sin(t * .8 + q.ph);
+  }
   for (const q of parts) {
     const y = ((q.y - q.v * t) % 1940 + 1940) % 1940 - 10;
     q.d.style.transform = `translate(${q.x + Math.sin(t * .6 + q.ph) * 24}px,${y}px)`;
@@ -710,6 +733,11 @@ function transitions(t) {
   // flashes: logo reveal + CTA
   const f = Math.max(p(t, LOGO_HIT, .08) * (1 - p(t, LOGO_HIT + .08, .6)), p(t, CTA_HIT, .08) * (1 - p(t, CTA_HIT + .08, .6)));
   $('#flash').style.opacity = f;
+  const fl = $('#flare');
+  const hit = t < 40 ? LOGO_HIT : CTA_HIT, fk = p(t, hit - .05, .12) * (1 - p(t, hit + .1, .9));
+  fl.style.top = (t < 40 ? 900 : 600) + 'px';
+  fl.style.opacity = fk;
+  fl.style.transform = `scaleX(${lerp(.2, 1.3, p(t, hit - .05, .8))})`;
   // brand bar during feature scenes, progress dots
   const bo = p(t, TL[3][1], .5) * (1 - p(t, TL[9][1] - .2, .4));
   $('#brand').style.opacity = bo;

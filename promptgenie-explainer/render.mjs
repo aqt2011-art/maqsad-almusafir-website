@@ -15,7 +15,7 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const stills = args.find(a => a.startsWith('--frames='));
 const out = args.find(a => !a.startsWith('--')) || path.join(dir, 'video-silent.mp4');
-const FPS = 30;
+const FPS = Number(process.env.FPS || 30);
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
@@ -34,7 +34,7 @@ if (stills) {
   const total = Math.round(duration * FPS);
   const ff = spawn(process.env.FFMPEG || 'ffmpeg', [
     '-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out,
+    '-c:v', 'libx264', '-preset', 'medium', '-crf', '14', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out,
   ], { stdio: ['pipe', 'inherit', 'inherit'] });
   for (let f = 0; f < total; f++) {
     await page.evaluate(t => window.seek(t), f / FPS);
